@@ -4,9 +4,19 @@ import Link from "next/link";
 
 const Home = () => {
   return (
-    <div>
+    <div style={{ textAlign: "center" }}>
       <h1>Hello World</h1>
-      <Link href="/reviews">Go to Review Page</Link>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          gap: "20px",
+          marginTop: "20px",
+        }}
+      >
+        <Link href="/reviews">Go to Review Page</Link>
+        <Link href="/reviews/NewReview">Add a review</Link>
+      </div>
     </div>
   );
 };
