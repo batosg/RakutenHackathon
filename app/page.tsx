@@ -15,7 +15,7 @@ const Home = () => {
         }}
       >
         <Link href="/reviews">Go to Review Page</Link>
-        <Link href="/reviews/NewReview">Add a review</Link>
+        <Link href="/NewReview">Add a review</Link>
       </div>
     </div>
   );
