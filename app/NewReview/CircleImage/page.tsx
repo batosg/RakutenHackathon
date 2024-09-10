@@ -2,7 +2,7 @@ import React from "react";
 
 interface User {
   name: string;
-  image: string; // URL to the image or path to the local image
+  image: string;
 }
 
 interface CircleOutlineWithImageProps {
@@ -15,7 +15,11 @@ const CircleOutlineWithImage: React.FC<CircleOutlineWithImageProps> = ({
   return (
     <div className=" mt-4 flex items-center ">
       <div className=" mt-4 flex items-center">
-        <img src={user.image} alt={user.name} className="w-16 h-16 " />
+        <img
+          src={user.image}
+          alt={user.name}
+          className="w-16 h-16 rounded-full"
+        />
         <div className="ml-4 flex items-center">
           <p className="text-lg font-bold">{user.name}</p>
         </div>
