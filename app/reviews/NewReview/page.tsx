@@ -4,24 +4,20 @@ import Link from "next/link";
 import React, { useState, useEffect } from "react";
 
 const AddReview = ({
-  onAddReview,
+  onAddReview = (review: { rating: number; comment: string }) => {
+    console.log("Review submitted:", review);
+  },
 }: {
   onAddReview: (review: { rating: number; comment: string }) => void;
 }) => {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
 
-  //   useEffect(() => {
-  //     if (rating > 0 && comment.trim()) {
-  //       handleSubmit();
-  //     }
-  //   }, [rating, comment]);
-
-  //   const handleSubmit = () => {
-  //     onAddReview({ rating, comment });
-  //     setRating(0);
-  //     setComment("");
-  //   };
+  const handleSubmit = () => {
+    onAddReview({ rating, comment });
+    setRating(0);
+    setComment("");
+  };
 
   return (
     <div className="add-review">
@@ -53,6 +49,7 @@ const AddReview = ({
           onChange={(e) => setComment(e.target.value)}
           placeholder="Type your review here..."
         />
+        <button onClick={handleSubmit}>Submit Review</button>
         <Link href="../../">Go to Home Page</Link>
       </div>
     </div>
