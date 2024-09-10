@@ -1,9 +1,21 @@
-import React, { useState } from 'react'
+'use client'
+
+import React from 'react'
 import { LogoImage } from '@/public/'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 
 const page = () => {
 
+    const router = useRouter()
+
+    const handleLogin = () => {
+        console.log('ログイン')
+    }
+
+    const handleRegister = () => {
+        router.push('/auth/register')
+    }
 
     return (
         <div className='flex flex-col items-center h-screen'>
@@ -21,8 +33,8 @@ const page = () => {
                     </div>
                 </div>
                 <div className='flex flex-col gap-4'>
-                    <button className='w-full bg-accent text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' type="button">ログイン</button>
-                    <button className='w-full bg-white border border-accent text-accent font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' type="button">パスワードを忘れた</button>
+                    <button className='w-full bg-accent text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' type="button" onClick={handleLogin}>ログイン</button>
+                    <button className='w-full bg-white border border-accent text-accent font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' type="button" onClick={handleRegister}>会員登録</button>
                 </div>
             </div>
         </div>
