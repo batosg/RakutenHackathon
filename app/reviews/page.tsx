@@ -1,5 +1,6 @@
 import React from "react";
 import StarRating from "../reviews/StarRating"; // Adjust the import path as needed
+import Link from "next/link";
 
 const ReviewPage = () => {
   const review = {
@@ -133,6 +134,7 @@ const ReviewPage = () => {
           Visit website
         </a>
       </p>
+      <Link href="../">Go to Home Page</Link>
     </div>
   );
 };
