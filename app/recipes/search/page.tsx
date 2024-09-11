@@ -35,98 +35,97 @@ export default function Recipe() {
     );
 
     // レシピを表すカードの描写に関する部分
-    // デモデータ
+    // デモデータ    
+    // const recipes = [
+    //     {
+    //         recipe_id: 0,
+    //         title: "炊き込みご飯",
+    //         image: TakikomiImage,
+    //         materials: ["米", "キノコ", "醤油"],
+    //         addedDate: new Date("2024-09-11T10:00:00Z"),
+    //         rating: 20,
+    //         creationTime: 40,
+    //         obtainMaterials: 3,
+    //         life: 2,
+    //         taste: 4
+    //     },
+    //     {
+    //     recipe_id: 1,
+    //     title: "和風キノコパスタ",
+    //     image: Pasuta,
+    //     materials: ["乾麺", "キノコ", "醤油", "バター", "塩"],
+    //     addedDate: new Date("2024-09-13T10:00:00Z"),
+    //     rating: 30,
+    //     creationTime: 15,
+    //     obtainMaterials: 2,
+    //     life: 5,
+    //     taste: 1
+    //     },
+    //     {
+    //     recipe_id: 2,
+    //     title: "手作りクッキー",
+    //     image: Cookie,
+    //     materials: ["卵", "砂糖", "小麦粉", "バター", "塩"],
+    //     addedDate: new Date("2024-08-10T10:00:00Z"),
+    //     rating: 78,
+    //     creationTime: 40,
+    //     obtainMaterials: 2,
+    //     life: 1,
+    //     taste: 3
+    //     },
+    //     {
+    //     recipe_id: 3,
+    //     title: "とろろそば",
+    //     image: Soba,
+    //     materials: ["乾麺", "ねぎ", "山芋", "めんつゆ", "ワサビ"],
+    //     addedDate: new Date("2024-02-10T10:00:00Z"),
+    //     rating: 2,
+    //     creationTime: 12,
+    //     obtainMaterials: 4,
+    //     life: 4,
+    //     taste: 1
+    //     },
+    //     {
+    //     recipe_id: 4,
+    //     title: "カツカレー",
+    //     image: KatsuCurry,
+    //     materials: ["レトルトカレー", "米", "ひれ肉", "卵", "片栗粉", "パン粉", "野菜（お好み）"],
+    //     addedDate: new Date("2024-05-10T10:00:00Z"),
+    //     rating: 201,
+    //     creationTime: 20,
+    //     obtainMaterials: 5,
+    //     life: 2,
+    //     taste: 3,
+    //     },
+    //     {
+    //     recipe_id: 5,
+    //     title: "タコライス",
+    //     image: TacoRice,
+    //     materials: ["米", "カレー粉", "キャベツ", "チーズ", "タバスコ"],
+    //     addedDate: new Date("2023-12-10T10:00:00Z"),
+    //     rating: 22,
+    //     creationTime: 10,
+    //     obtainMaterials: 3,
+    //     life: 4,
+    //     taste: 1
 
+    //     },
+    // ];
+    const [recipeList, setresipeList] = useState([]);
+    // データベースからのの取得
     const { data, error, loading, refetch } = useApi();
     useEffect(() => {
         refetch('/recipes', {
             method: 'GET',
+            headers: {
+                'ngrok-skip-browser-warning': true,
+            }
         });
-        console.log("test");
     }, [refetch])
     useEffect(() => {
-        console.log(data);
+        setresipeList(data);
+        console.log(data)
     }, [data])
-    
-    const recipes = [
-        {
-            recipe_id: 0,
-            title: "炊き込みご飯",
-            image: TakikomiImage,
-            materials: ["米", "キノコ", "醤油"],
-            addedDate: new Date("2024-09-11T10:00:00Z"),
-            rating: 20,
-            creationTime: 40,
-            obtainMaterials: 3,
-            life: 2,
-            taste: 4
-        },
-        {
-        recipe_id: 1,
-        title: "和風キノコパスタ",
-        image: Pasuta,
-        materials: ["乾麺", "キノコ", "醤油", "バター", "塩"],
-        addedDate: new Date("2024-09-13T10:00:00Z"),
-        rating: 30,
-        creationTime: 15,
-        obtainMaterials: 2,
-        life: 5,
-        taste: 1
-        },
-        {
-        recipe_id: 2,
-        title: "手作りクッキー",
-        image: Cookie,
-        materials: ["卵", "砂糖", "小麦粉", "バター", "塩"],
-        addedDate: new Date("2024-08-10T10:00:00Z"),
-        rating: 78,
-        creationTime: 40,
-        obtainMaterials: 2,
-        life: 1,
-        taste: 3
-        },
-        {
-        recipe_id: 3,
-        title: "とろろそば",
-        image: Soba,
-        materials: ["乾麺", "ねぎ", "山芋", "めんつゆ", "ワサビ"],
-        addedDate: new Date("2024-02-10T10:00:00Z"),
-        rating: 2,
-        creationTime: 12,
-        obtainMaterials: 4,
-        life: 4,
-        taste: 1
-        },
-        {
-        recipe_id: 4,
-        title: "カツカレー",
-        image: KatsuCurry,
-        materials: ["レトルトカレー", "米", "ひれ肉", "卵", "片栗粉", "パン粉", "野菜（お好み）"],
-        addedDate: new Date("2024-05-10T10:00:00Z"),
-        rating: 201,
-        creationTime: 20,
-        obtainMaterials: 5,
-        life: 2,
-        taste: 3
-        },
-        {
-        recipe_id: 5,
-        title: "タコライス",
-        image: TacoRice,
-        materials: ["米", "カレー粉", "キャベツ", "チーズ", "タバスコ"],
-        addedDate: new Date("2023-12-10T10:00:00Z"),
-        rating: 22,
-        creationTime: 10,
-        obtainMaterials: 3,
-        life: 4,
-        taste: 1
-
-        },
-    ];
-    const [recipeList, setresipeList] = useState([...recipes]);
-    const handleRecipes = (recipes) => {
-        setSelected(recipes);
-    }
     // 評価値を表すアイコンのmap
     const iconMap = [
         {key: "obtainMaterials", colorIcon: Carrot, grayIcon: CarrotGray, text:"素材の調達は簡単でしたか"},
@@ -150,30 +149,23 @@ export default function Recipe() {
         );
     }
     // デモデータを受けてカードを作成する関数
-    function recipeCard(recipeMap: {
-        recipe_id?: number;
-        title: string;
-        image: StaticImageData;
-        materials: string[];
-        addedDate: Date;
-        rating?: number;
-        creationTime?: number;
-    }) {
+    // function recipeCard(recipeMap: { [x: string]: number; recipe_id?: number; title: any; image: any; materials: any; addedDate: any; rating: any; creationTime: any; obtainMaterials?: number; life?: number; taste?: number; 
+    function recipeCard(recipeMap){
         return (
             <div className="w-[90vw] mx-auto my-5 flex">
                 <div className="flex-1 bg-gray-300 rounded-lg p-5 flex">
                     <div className="w-2/3 text-left pr-4">
                         {middleHeading(recipeMap.title)}
-                        {baseText(`材料 ：${materialsText(recipeMap.materials)}`)}
-                        {baseText(`作成時間 ：${recipeMap.creationTime}分`)}
+                        {baseText(`材料 ：${materialsText(recipeMap.ingredients.map((element)=>element.name))}`)}
+                        {baseText(`作成時間 ：${recipeMap.cooking_time}分`)}
                         <ul className="list-none p-0">
                             {iconMap.map((iconMap, index) => (
                                 <li key={index} className="inline-block mr-2">
-                                    {rateIcons(recipeMap[iconMap.key], iconMap.colorIcon, iconMap.grayIcon, iconMap.text)}
+                                    {rateIcons(3, iconMap.colorIcon, iconMap.grayIcon, iconMap.text)}
                                 </li>
                             ))}
                         </ul>
-                        {baseText(`投稿日時 ：${recipeMap.addedDate.toLocaleDateString('ja-JP', {
+                        {baseText(`投稿日時 ：${(new Date(recipeMap.created_at)).toLocaleDateString('ja-JP', {
                             year: 'numeric',
                             month: '2-digit',
                             day: '2-digit',
@@ -182,11 +174,13 @@ export default function Recipe() {
     
                     <div className="w-1/3 flex flex-col justify-between">
                     <div className="flex flex-col items-center">
-                        <Image className="w-full h-auto rounded-md" src={recipeMap.image} alt="料理画像" />
+                        {/* <Image className="w-full h-auto rounded-md" src={recipeMap.image} alt="料理画像" /> */}
+                        <Image className="w-full h-auto rounded-md" src={KatsuCurry} alt="料理画像" />
                     </div>
                     <div className="flex items-center mt-3">
                         {iconImage(Heart, "ハートのアイコン")}
-                        <span className="text-lg font-semibold ml-2">{recipeMap.rating}</span>
+                        {/* <span className="text-lg font-semibold ml-2">{recipeMap.rating}</span> */}
+                        <span className="text-lg font-semibold ml-2">{100}</span>
                     </div>
                 </div>
             </div>
@@ -224,7 +218,7 @@ export default function Recipe() {
         });
     }
     function sortByAddedDate(id){
-        const newRecipe = sortListByFunction(recipeList, ((recipe)=>-recipe.addedDate.getTime()))
+        const newRecipe = sortListByFunction(recipeList, ((recipe)=>-(new Date(recipe.created_at)).getTime()))
         setresipeList(newRecipe);
         handleClick(id);
     }
@@ -234,7 +228,7 @@ export default function Recipe() {
         handleClick(id);
     }
     function sortByCreationTime(id){
-        const newRecipe = sortListByFunction(recipeList, ((recipe)=>recipe.creationTime))
+        const newRecipe = sortListByFunction(recipeList, ((recipe)=>recipe.cooking_time))
         setresipeList(newRecipe);
         handleClick(id);
     }
@@ -252,11 +246,20 @@ export default function Recipe() {
             </div>
 
             <ul>
+            {loading && <p>Loading...</p>}
+        {error && <p>Error loading data.</p>}
+        {/* データがロードされていれば表示 */}
+        {recipeList && recipeList.length > 0 ? (
+            <ul>
                 {recipeList.map((recipe, index) => (
-                <li key={index}>
-                    {recipeCard(recipe)}
-                </li>
+                    <li key={index}>
+                        {recipeCard(recipe)}
+                    </li>
                 ))}
+            </ul>
+        ) : (
+            !loading && <p>No recipes found.</p>  // ロードが終わってもデータが空なら表示
+        )}
             </ul>
         </div>
     )
