@@ -1,24 +1,37 @@
 "use client";
 
 import Link from "next/link";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import CircleOutlineWithImage from "./CircleImage/page";
+import { ProfileImage } from "@/public/";
+import ReviewList from "./ReviewList/page"; // Adjust the import path if necessary
 
-const AddReview = ({
-  onAddReview = (review: { rating: number; comment: string }) => {
-    console.log("Review submitted:", review);
-  },
-}: {
-  onAddReview: (review: { rating: number; comment: string }) => void;
-}) => {
+const AddReview = () => {
+  const [reviews, setReviews] = useState([
+    {
+      id: "1",
+      name: "Rakuten Batos",
+      rating: 4,
+      comment: "This product is great!",
+      difficulty: 3,
+    },
+    { id: "2", name: "Bob", rating: 3, comment: "Not good", difficulty: 2 },
+    { id: "3", name: "Charlie", rating: 5, comment: "Nice", difficulty: 4 },
+    {
+      id: "4",
+      name: "Diana",
+      rating: 2,
+      comment: "This product is bad!",
+      difficulty: 1,
+    },
+  ]);
+  const user = {
+    name: "楽天太郎",
+    image: ProfileImage,
+  };
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
-
-  const handleSubmit = () => {
-    onAddReview({ rating, comment });
-    setRating(0);
-    setComment("");
-  };
+  const [difficulty, setDifficulty] = useState(1); // Default difficulty level is 1
   const [files, setFiles] = useState<
     Array<{ name: string; path: string; url?: string }>
   >([]);
@@ -32,23 +45,35 @@ const AddReview = ({
         return {
           name: file.name,
           path: file.webkitRelativePath || file.name,
-          url, // Add a URL for image preview
+          url,
         };
       });
 
       setFiles(fileArray);
     }
   };
+
+  const handleSubmit = () => {
+    const newReview = {
+      rating,
+      comment,
+      difficulty,
+    };
+
+    setReviews((prevReviews) => [
+      ...prevReviews,
+      { ...newReview, id: String(prevReviews.length + 1), name: user.name },
+    ]);
+
+    setRating(0);
+    setComment("");
+    setDifficulty(1);
+  };
+
   return (
     <div className="mt-4 add-review">
       <h2>Add a Review</h2>
-      <CircleOutlineWithImage
-        user={{
-          name: "楽天太郎",
-          image:
-            "https://fastly.picsum.photos/id/831/200/300.jpg?hmac=IC6dJVWWVnJ-extXtn0D9QDwKwbQ-tA_M6UD2T9zUbQ",
-        }}
-      />
+      <CircleOutlineWithImage user={user} />
       <div className="form-group">
         <label>Rating:</label>
         <div className="star-rating">
@@ -74,7 +99,6 @@ const AddReview = ({
           className="h-48 border-2 border-gray-300 rounded-lg p-4 placeholder-gray-500 focus:border-blue-500 focus:outline-none shadow-xl"
           id="comment"
           value={comment}
-          outline-color="red"
           onChange={(e) => setComment(e.target.value)}
           placeholder="Type your review here..."
         />
@@ -111,6 +135,25 @@ const AddReview = ({
             className="hidden"
             onChange={handleFileChange}
           />
+          <div className="flex items-center justify-between mt-4 mb-4">
+            <label className="text-lg font-semibold mr-4">料理の難易度</label>
+            <div className="flex space-x-4">
+              {[1, 2, 3, 4, 5].map((level) => (
+                <div
+                  key={level}
+                  onClick={() => setDifficulty(level)}
+                  className={`cursor-pointer text-lg font-bold px-2 py-1 rounded ${
+                    level === difficulty
+                      ? "bg-green-500 text-white"
+                      : "bg-gray-200"
+                  }`}
+                >
+                  {level}
+                </div>
+              ))}
+            </div>
+          </div>
+          {/* photo */}
           <div className="flex-grow"></div>
           <div className="mt-4 grid grid-cols-2 gap-4">
             {files.map((file, index) => (
@@ -128,6 +171,9 @@ const AddReview = ({
         </div>
         <Link href="../../">Go to Home Page</Link>
       </div>
+
+      {/* Display reviews */}
+      <ReviewList reviews={reviews} />
     </div>
   );
 };
