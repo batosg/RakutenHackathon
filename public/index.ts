@@ -15,4 +15,9 @@ export { default as Refrigerator } from './freeze_black.png'
 //export { default as RefrigeratorGray } from './freeze_139.png'
 export { default as Heart } from './heart.png'
 export { default as Save } from './save.png'
+export { default as Petbottle } from './petbottle.png'
+export { default as Bottle } from './bottle.png'
+
+
+
 export { default as Delete } from './delete.png'
