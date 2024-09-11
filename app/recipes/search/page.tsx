@@ -8,6 +8,7 @@ import { Cookie} from "@/public";
 import { useEffect, useState } from "react";
 import useApi from "@/hooks/useApi";
 import StarRating from "@/app/reviews/StarRating";
+import IconImage from "./iconimage";
 
 export default function Recipe() {
     // 本文，見出しを設定できる関数
@@ -24,16 +25,6 @@ export default function Recipe() {
             return materials.slice(0,maxMaterials).join(", ") + " …"
         }
     }
-    // アイコン画像を作成する関数
-    const iconImage = (src: StaticImageData, text: string, width: number = 20, height: number = 20) => (
-        <Image
-            src={src}
-            alt={text}
-            width={width}
-            height={height}
-            className="object-contain"  // 画像の縦横比を維持しつつ、指定サイズ内に収める
-        />
-    );
 
     // レシピを表すカードの描写に関する部分
     // デモデータ    
@@ -141,7 +132,7 @@ export default function Recipe() {
                 <ul className="flex list-none p-0 m-0">
                     {iconList.map((item, index) => (
                         <li key={index} className="mr-1">
-                            {iconImage(item, text)}
+                            <IconImage src={item} text={text} />
                         </li>
                     ))}
                 </ul>
@@ -149,12 +140,14 @@ export default function Recipe() {
         );
     }
 
-    function ratingFromReviews(reviews){
+    
+
+    function ratingFromReviews(reviews, key){
         if(reviews.length == 0){
             return 0;
         }
         let sum = 0;
-        reviews.forEach((review) => {sum+=review.rating})
+        reviews.forEach((review) => {sum+=review[key]})
         return sum/reviews.length
     }
     // デモデータを受けてカードを作成する関数
@@ -184,12 +177,24 @@ export default function Recipe() {
                     <div className="w-1/3 flex flex-col justify-between">
                     <div className="flex flex-col items-center">
                         {/* <Image className="w-full h-auto rounded-md" src={recipeMap.image} alt="料理画像" /> */}
-                        <Image className="w-full h-auto rounded-md" src={KatsuCurry} alt="料理画像" />
+                        <Image className="w-[1/3] h-auto rounded-md" src={recipeMap.image_url} alt="料理画像" />
                     </div>
                     <div className="flex items-center mt-3">
                         <div className="flex items-center">
-                            <StarRating rating={1} maxStars={1} />
+                            <IconImage src={Folk} text={"おいしさ"} />
                             <span className="text-xl font-semibold ml-2 mb-2 " style={{ verticalAlign: 'middle' }}>{ratingFromReviews(recipeMap.reviews)}</span>
+                        </div>
+                        <div className="flex items-center">
+                            <IconImage src={Refrigerator} text={"保存期間"} />
+                            <span className="text-xl font-semibold ml-2 mb-2 " style={{ verticalAlign: 'middle' }}>{ratingFromReviews(recipeMap.reviews)}</span>
+                        </div>
+                        <div className="flex items-center">
+                            <IconImage src={Carrot} text={"材料取得難易度"} />
+                            <span className="text-xl font-semibold ml-2 mb-2 " style={{ verticalAlign: 'middle' }}>{ratingFromReviews(recipeMap.reviews)}</span>
+                        </div>
+                        <div className="flex items-center">
+                            <StarRating rating={1} maxStars={1} />
+                            <span className="text-xl font-semibold ml-2 mb-2 " style={{ verticalAlign: 'middle' }}>{ratingFromReviews(recipeMap.reviews, "rating")}</span>
                         </div>
                     </div>      
                 </div>
@@ -197,7 +202,7 @@ export default function Recipe() {
     
                 <div className="min-w-[30px] flex flex-col items-center justify-start px-3">
                     <div className="flex-none">
-                        {iconImage(Save, "保存")}
+                        <IconImage src={Save} text={"保存"} />
                     </div>
                 </div>
             </div>
