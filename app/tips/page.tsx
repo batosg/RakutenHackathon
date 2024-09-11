@@ -1,17 +1,22 @@
 import { GassConlo } from "@/public";
+import { Petbottle } from "@/public"
+import { Bottle } from "@/public"
 import Image from "next/image";
 
 
-const image = <Image className="w-[90vw] mx-auto" src={GassConlo} alt="ガスコンロ" />;
-const title = (text:string) => <h1 className="text-lg font-bold mb-4 ">{text}</h1>;
-const baseText = (text:string) => <div className="mb-4 text-left text-sm">{text}</div>;
-const heading = (text:string) => <h1 className="text-1xl mb-4 relative inline-block text-base">{text}<span className="absolute left-0 bottom-0 w-1/4 h-1 bg-red-500"></span></h1>;
-const middleHeading = (text:string) => <div className="mb-4s text-left text-sm font-bold">{text}</div>;
+const image1 = <Image className="w-[90vw] mx-auto" src={GassConlo} alt="ガスコンロ" />;
+const image2 = <Image className="w-[90vw] mx-auto" src={Petbottle} alt="ペットボトル" />;
+const image3 = <Image className="w-[90vw] mx-auto" src={Bottle} alt="水筒" />;
+const title = (text: string) => <h1 className="text-lg font-bold mb-4 ">{text}</h1>;
+const baseText = (text: string) => <div className="mb-4 text-left text-sm">{text}</div>;
+const heading = (text: string) => <h1 className="text-1xl mb-4 relative inline-block text-base">{text}<span className="absolute left-0 bottom-0 w-1/4 h-1 bg-red-500"></span></h1>;
+const middleHeading = (text: string) => <div className="mb-4s text-left text-sm font-bold">{text}</div>;
 
-const context = <div className = "m-10 mx-left">
+{/*ガスが止まった時の対策記事*/ }
+const context = <div className="m-10 mx-left">
     {title("【ガスが止まった時に】火を使わない調理法／節ガス・節水になるポリ袋調理法")}
     {baseText("地震や大型台風などの災害によって「ガス」が使えなくなったときにできる調理の工夫と、節ガス・節水になる「ポリ袋調理」について解説します。")}
-    
+
     {heading("ガスが使えないときにできる調理の工夫")}
     {middleHeading("カセットコンロを使う")}
     {baseText("ガスが使えないときの代わりの熱源として、あると役立つのがカセットコンロです。ただし、ガスボンベの燃焼時間には限りがあるので、 加熱するものに優先順位をつけて、効率的に使うよう心がけましょう。コンロを2台並べたり、ストーブのそばで使用したりするのは危険なので避けてください。「カセットコンロの正しい使い方」も確認してください。")}
@@ -36,11 +41,58 @@ const context = <div className = "m-10 mx-left">
     {baseText("火がとおったら、トングや菜箸で袋をすくい上げます。結び目の下をハサミで切り、器に移し替えるか、もしくはそのままポリ袋を器にかぶせて食卓に出しましょう。")}
 </div>;
 
-const Tips = () => {
+{/*包丁がなくて鱗取りが大変な時の対策記事*/ }
+const context2 = <div className="m-10 mx-left">
+    {title("【便利すぎ】差かなのウロコ取りには「ペットボトルのキャップ」を使うべし！ 軽くて安全、魚も傷つかない!")}
+    {baseText("鱗取りは包丁の背で取り除くのが最も主流ですが、手間がかかり、うろこが飛び散るなど面倒な作業です。そこで、災害時であっても簡単に鱗取りを行える方法を紹介します。")}
+
+    {heading("用意するもの")}
+    {middleHeading("魚")}
+    {baseText("小魚から中型の魚まで、特にサイズは気にする必要はありません。")}
+    {middleHeading("ペットボトルのキャップ")}
+    {baseText("ご自身が持っているものであればなんでも問題はありません")}
+
+    {heading("方法")}
+    {middleHeading("1. まな板の上に牛乳パックを開いたもの、あるいはクッキングシートなどを敷き、魚を置く。")}
+    {baseText("")}
+    {middleHeading("2. ペットボトルのキャップの裏面を魚に当てて、左右に動かす。")}
+    {baseText("")}
+    {middleHeading("3. 取れたら裏表をひっくり返して、2.の作業を繰り返す")}
+    {baseText("")}
+    {heading("感想")}
+    {baseText("今回は、小さめと大きめの鯛で実際に試してみました。小ぶりの鯛は、2分もかからず鱗取りができ、素早く取れることがわかりました。小ぶりの魚の鱗を包丁や鱗取りで取ろうとすると、身をつぶしてしまうことがあるが、ペットボトルのキャップなら、負荷も少なく行えました。一方で、大きいものは鱗が高いこともあり、頭やえらも部分までしっかりと落とすンは5分ほどかかりましたが性能自体は問題なかったです。")}
+
+</div>;
+{/*停電時でも簡単！「スープジャーを使った保温調理*/ }
+
+const context3 = <div className="m-10 mx-left">
+    {title("【停電でも安心】「スープジャー」を使った保温調理! 今回はジャガイモ豚汁を紹介!!")}
+    {baseText("「保温調理」とは、保温しながら具材に熱を通す調理法。保温調理にスープジャーを活用するなら、中に入れる食材は、しっかり煮込んで完成した状態ではなく、そのちょっと手前の、ほどほどに火が通った状態で大丈夫。具材の中心部までしっかり温まっていれば、しばし放置（保温）するだけで、具材に熱を通してくれます。今回はジャガイモ豚汁を紹介！")}
+
+    {heading("材料 (300mlスープジャー1個分")}
+    {middleHeading("")}
+    {baseText("豚バラ肉薄切り・・・50g")}
+    {baseText("ジャガイモ・・・中1個")}
+    {baseText("長ネギ・・・4cmほど")}
+    {baseText("すりおろし生姜・・・少々")}
+    {baseText("味噌・・・大匙1")}
+    {baseText("水・・・200ml")}
+
+    {heading("方法")}
+    {middleHeading("1. じゃがいもは皮をむき1/4に切る。長ねぎは斜め切り。豚肉は4cm幅に切る。")}
+    {baseText("")}
+    {middleHeading("2. 鍋に味噌以外のすべての材料を入れ、水200mlを加えて煮立てる。")}
+    {baseText("")}
+    {middleHeading("3. 味噌を溶き入れ、ジャーに移す。")}
+    {baseText("")}
+    {heading("感想")}
+    {baseText("今回は、小さめと大きめの鯛で実際に試してみました。小ぶりの鯛は、2分もかからず鱗取りができ、素早く取れることがわかりました。小ぶりの魚の鱗を包丁や鱗取りで取ろうとすると、身をつぶしてしまうことがあるが、ペットボトルのキャップなら、負荷も少なく行えました。一方で、大きいものは鱗が高いこともあり、頭やえらも部分までしっかりと落とすンは5分ほどかかりましたが性能自体は問題なかったです。")}
+
+</div>; const Tips = () => {
     return (
         <div>
-            {image}
-            {context}
+            {image3}
+            {context3}
         </div>
     );
 };
