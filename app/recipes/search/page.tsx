@@ -5,7 +5,8 @@ import { Carrot, CarrotGray, Folk, FolkGray, Heart, KatsuCurry, Refrigerator, Re
 import { ProfileImage} from "@/public/";
 import { Pasuta} from "@/public";
 import { Cookie} from "@/public";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import useApi from "@/hooks/useApi";
 
 export default function Recipe() {
     // 本文，見出しを設定できる関数
@@ -35,6 +36,21 @@ export default function Recipe() {
 
     // レシピを表すカードの描写に関する部分
     // デモデータ
+
+    const { data, error, loading, refetch } = useApi();
+    useEffect(() => {
+        refetch('/recipes', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+        });
+        console.log("test");
+    }, [refetch])
+    useEffect(() => {
+        console.log(data);
+    }, [data])
+    
     const recipes = [
         {
             recipe_id: 0,
