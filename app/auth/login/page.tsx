@@ -1,31 +1,18 @@
 "use client"
-import React, { useEffect } from 'react'
+import React from 'react'
 import { LogoImage } from '@/public/'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { InputField } from '@/feature/auth'
-import useLogin from '@/feature/auth/hooks/useLogin'
+import { InputField, useLogin } from '@/feature/auth'
 
 const LoginPage = () => {
 
-    const { email, setEmail, password, setPassword, handleLogin, isLoggedIn, isLoading, error } = useLogin();
+    const { email, setEmail, password, setPassword, handleLogin, isLoading, error } = useLogin();
 
     const router = useRouter()
     const handleRegister = () => {
         router.push('/auth/register')
     }
-
-    useEffect(() => {
-        if (isLoggedIn) {
-            router.push('/dashboard')
-        }
-    }, [isLoggedIn])
-
-    useEffect(() => {
-        if (error) {
-            console.log(error)
-        }
-    }, [error])
 
     return (
         <div className='flex flex-col items-center h-screen'>
@@ -36,7 +23,7 @@ const LoginPage = () => {
                     <div className='mt-10'>
                         <div className='mb-6'>
                             <InputField
-                                label="メールアドレスを入力"
+                                label="メールアドレス"
                                 placeholder="メールアドレス"
                                 id="email"
                                 type="email"

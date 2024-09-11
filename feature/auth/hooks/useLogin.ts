@@ -15,7 +15,6 @@ interface UseLoginReturnType {
     password: string;
     setPassword: (password: string) => void;
     handleLogin: (e: React.FormEvent) => Promise<void>;
-    isLoggedIn: boolean;
     isLoading: boolean;
     error: string | null;
 }
@@ -24,7 +23,6 @@ const useLogin = (): UseLoginReturnType => {
     const { data, error, loading, refetch } = useApi();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
     const router = useRouter();
     const currentLoginAttempt = useRef<{ email: string; password: string } | null>(null);
 
@@ -44,7 +42,6 @@ const useLogin = (): UseLoginReturnType => {
             const response = data as LoginResponse;
             if (response && response.access_token && currentLoginAttempt.current) {
                 localStorage.setItem('access_token', response.access_token);
-                setIsLoggedIn(true);
                 router.push('/');
                 currentLoginAttempt.current = null;
             }
@@ -62,7 +59,6 @@ const useLogin = (): UseLoginReturnType => {
         password,
         setPassword,
         handleLogin,
-        isLoggedIn,
         isLoading: loading,
         error: error ? error.message : null,
     };
