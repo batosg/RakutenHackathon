@@ -234,16 +234,17 @@ export default function Recipe() {
     }
     // 選択されているかを受けてボタンのデザインを変化させる関数
     function sortButton(button, selectedId){
-        return (<button className={`flex-1 py-4 border ${button.id === selectedId ? "bg-blue-500 text-white":'bg-gray-200 text-gray-700'}`} onClick={button.onClick}>
+        return (<button className={`inline-flex items-center px-4 border ${button.id === selectedId ? "bg-blue-500 text-white" : 'bg-gray-200 text-gray-700'}`} onClick={button.onClick}>
             {button.name}
         </button>);
     }
 
     return (
         <div className="m-5">
-            <div className="flex w-[90vw] max-w-md mx-auto">
+            <div className="flex w-[80vw] max-w-md mx-auto">
                 {buttonTable.map((button)=>sortButton(button, selected))}
             </div>
+
 
             <ul>
             {loading && <p>Loading...</p>}
