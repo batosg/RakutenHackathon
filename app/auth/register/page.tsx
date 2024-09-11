@@ -21,7 +21,7 @@ const Register = () => {
                                 label="ユーザー名"
                                 placeholder="ユーザー名"
                                 id="name"
-                                type="aaa"
+                                type="text"
                                 value={username}
                                 onChange={(e) => setUsername(e.target.value)}
                             />
