@@ -5,6 +5,8 @@ import React, { useState } from "react";
 import CircleOutlineWithImage from "./CircleImage/page";
 import { ProfileImage } from "@/public/";
 import ReviewList from "./ReviewList/page"; // Adjust the import path if necessary
+import { useEffect } from "react";
+import useApi from "@/hooks/useApi";
 
 const AddReview = () => {
   const [reviews, setReviews] = useState([
@@ -35,6 +37,20 @@ const AddReview = () => {
   const [files, setFiles] = useState<
     Array<{ name: string; path: string; url?: string }>
   >([]);
+  const user_id = "988ad7ee-03f2-4b4c-a1c8-8bea6eed5d18";
+  const { data, error, loading, refetch } = useApi();
+  useEffect(() => {
+    refetch(`/reviews/recipe/2138a252-ceb7-4906-8c1d-5bd7f636218e`, {
+      method: "GET",
+      headers: {
+        "ngrok-skip-browser-warning": true,
+      },
+    });
+    console.log("test");
+  }, [refetch]);
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = event.target.files;
