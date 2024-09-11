@@ -20,3 +20,4 @@ export { default as Bottle } from './bottle.png'
 
 
 
+export { default as Delete } from './delete.png'
