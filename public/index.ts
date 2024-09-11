@@ -14,6 +14,8 @@ export { default as Folk } from './folk_black.png'
 export { default as Refrigerator } from './freeze_black.png'
 //export { default as RefrigeratorGray } from './freeze_139.png'
 export { default as Heart } from './heart.png'
+export { default as Save } from './save.png'
+
 
 
 
