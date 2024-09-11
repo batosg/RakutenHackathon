@@ -71,7 +71,7 @@ const AddReview = ({
       <div className="form-group">
         <label htmlFor="comment">Comment</label>
         <textarea
-          className="h-48 border-2 border-gray-300 rounded-lg p-4 placeholder-gray-500 focus:border-blue-500 focus:outline-none"
+          className="h-48 border-2 border-gray-300 rounded-lg p-4 placeholder-gray-500 focus:border-blue-500 focus:outline-none shadow-xl"
           id="comment"
           value={comment}
           outline-color="red"
@@ -79,45 +79,52 @@ const AddReview = ({
           placeholder="Type your review here..."
         />
         <div>
+          <label
+            htmlFor="directory-upload"
+            className="cursor-pointer bg-blue-500 text-white font-bold border rounded shadow-lg mr-8"
+            style={{
+              padding: "0.5rem 1rem",
+              fontSize: "1rem",
+              display: "inline-block",
+              textAlign: "center",
+              marginTop: "1rem",
+            }}
+          >
+            画像追加
+          </label>
           <button
             style={{
               backgroundColor: "#BF0000",
               borderColor: "#BF0000",
+              padding: "0.5rem 1rem",
+              fontSize: "1rem",
             }}
-            className="hover:bg-red-700 text-white font-bold py-2 px-4 border rounded mt-4"
+            className="hover:bg-red-700 text-white font-bold border rounded mt-4 shadow-lg"
             onClick={handleSubmit}
           >
             レビューを投稿する
           </button>
-          <div className="flex flex-col h-full">
-            <label
-              htmlFor="directory-upload"
-              className="cursor-pointer bg-blue-500 text-white py-2 px-4 rounded"
-            >
-              画像追加
-            </label>
-            <input
-              id="directory-upload"
-              type="file"
-              multiple
-              className="hidden"
-              onChange={handleFileChange}
-            />
-            <div className="flex-grow"></div>
-            <div className="mt-4 grid grid-cols-2 gap-4">
-              {files.map((file, index) => (
-                <div key={index} className="mb-2">
-                  {file.url && (
-                    <img
-                      src={file.url}
-                      alt={file.name}
-                      className="max-w-xs h-auto"
-                    />
-                  )}
-                  <p>{file.path}</p>
-                </div>
-              ))}
-            </div>
+          <input
+            id="directory-upload"
+            type="file"
+            multiple
+            className="hidden"
+            onChange={handleFileChange}
+          />
+          <div className="flex-grow"></div>
+          <div className="mt-4 grid grid-cols-2 gap-4">
+            {files.map((file, index) => (
+              <div key={index} className="mb-2">
+                {file.url && (
+                  <img
+                    src={file.url}
+                    alt={file.name}
+                    className="max-w-xs h-auto"
+                  />
+                )}
+                <p>{file.path}</p>
+              </div>
+            ))}
           </div>
         </div>
         <Link href="../../">Go to Home Page</Link>
