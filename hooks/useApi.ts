@@ -19,6 +19,7 @@ const useApi = (): UseApiReturnType => {
     const [data, setData] = useState<any>(null);
     const [error, setError] = useState<AxiosError<ErrorResponse> | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
+    const [endpoint, setEndpoint] = useState<string>("");
 
     const refetch = useCallback(async (endpoint: string, options: AxiosRequestConfig = {}) => {
         setLoading(true);
