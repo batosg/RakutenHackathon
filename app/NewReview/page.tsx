@@ -115,14 +115,13 @@ const AddReview = ({
           <div className="mt-4 grid grid-cols-2 gap-4">
             {files.map((file, index) => (
               <div key={index} className="mb-2">
-                {file.url && (
+                {
                   <img
                     src={file.url}
                     alt={file.name}
                     className="max-w-xs h-auto"
                   />
-                )}
-                <p>{file.path}</p>
+                }
               </div>
             ))}
           </div>
