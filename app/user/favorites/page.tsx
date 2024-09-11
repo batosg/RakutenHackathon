@@ -1,7 +1,7 @@
 "use client";
 
 import Image, { StaticImageData } from "next/image";
-import { Carrot, CarrotGray, Folk, FolkGray, Heart, KatsuCurry, Refrigerator, RefrigeratorGray, Save, Soba, TacoRice, TakikomiImage} from "@/public/";
+import { Carrot, CarrotGray, Delete, Folk, FolkGray, Heart, KatsuCurry, Refrigerator, RefrigeratorGray, Save, Soba, TacoRice, TakikomiImage} from "@/public/";
 import { ProfileImage} from "@/public/";
 import { Pasuta} from "@/public";
 import { Cookie} from "@/public";
@@ -58,6 +58,7 @@ export default function Recipe() {
             image: TakikomiImage,
             materials: ["米", "キノコ", "醤油"],
             addedDate: new Date("2024-09-11T10:00:00Z"),
+            savedDate: new Date("2025-09-11T10:00:00Z"),
             rating: 20,
             creationTime: 40,
             obtainMaterials: 3,
@@ -70,6 +71,7 @@ export default function Recipe() {
         image: Pasuta,
         materials: ["乾麺", "キノコ", "醤油", "バター", "塩"],
         addedDate: new Date("2024-09-13T10:00:00Z"),
+        savedDate: new Date("2026-09-11T10:00:00Z"),
         rating: 30,
         creationTime: 15,
         obtainMaterials: 2,
@@ -82,6 +84,7 @@ export default function Recipe() {
         image: Cookie,
         materials: ["卵", "砂糖", "小麦粉", "バター", "塩"],
         addedDate: new Date("2024-08-10T10:00:00Z"),
+        savedDate: new Date("2027-09-11T10:00:00Z"),
         rating: 78,
         creationTime: 40,
         obtainMaterials: 2,
@@ -94,6 +97,7 @@ export default function Recipe() {
         image: Soba,
         materials: ["乾麺", "ねぎ", "山芋", "めんつゆ", "ワサビ"],
         addedDate: new Date("2024-02-10T10:00:00Z"),
+        savedDate: new Date("2028-09-11T10:00:00Z"),
         rating: 2,
         creationTime: 12,
         obtainMaterials: 4,
@@ -106,6 +110,7 @@ export default function Recipe() {
         image: KatsuCurry,
         materials: ["レトルトカレー", "米", "ひれ肉", "卵", "片栗粉", "パン粉", "野菜（お好み）"],
         addedDate: new Date("2024-05-10T10:00:00Z"),
+        savedDate: new Date("2025-11-11T10:00:00Z"),
         rating: 201,
         creationTime: 20,
         obtainMaterials: 5,
@@ -118,6 +123,7 @@ export default function Recipe() {
         image: TacoRice,
         materials: ["米", "カレー粉", "キャベツ", "チーズ", "タバスコ"],
         addedDate: new Date("2023-12-10T10:00:00Z"),
+        savedDate: new Date("2025-02-11T10:00:00Z"),
         rating: 22,
         creationTime: 10,
         obtainMaterials: 3,
@@ -154,6 +160,7 @@ export default function Recipe() {
     }
     // デモデータを受けてカードを作成する関数
     function recipeCard(recipeMap: {
+        [x: string]: any;
         recipe_id?: number;
         title: string;
         image: StaticImageData;
@@ -181,6 +188,11 @@ export default function Recipe() {
                             month: '2-digit',
                             day: '2-digit',
                         })}`)}
+                        {baseText(`保存日時 ：${recipeMap.savedDate.toLocaleDateString('ja-JP', {
+                            year: 'numeric',
+                            month: '2-digit',
+                            day: '2-digit',
+                        })}`)}
                     </div>
     
                     <div className="w-1/3 flex flex-col justify-between">
@@ -196,7 +208,7 @@ export default function Recipe() {
     
                 <div className="min-w-[30px] flex flex-col items-center justify-start px-3">
                     <div className="flex-none">
-                        {iconImage(Save, "保存")}
+                        {iconImage(Delete, "保存")}
                     </div>
                 </div>
             </div>
@@ -243,14 +255,14 @@ export default function Recipe() {
     }
     // 選択されているかを受けてボタンのデザインを変化させる関数
     function sortButton(button, selectedId){
-        return (<button className={`flex-1 py-4 border ${button.id === selectedId ? "bg-blue-500 text-white":'bg-gray-200 text-gray-700'}`} onClick={button.onClick}>
+        return (<button className={`inline-flex items-center px-4 border ${button.id === selectedId ? "bg-blue-500 text-white" : 'bg-gray-200 text-gray-700'}`} onClick={button.onClick}>
             {button.name}
         </button>);
     }
 
     return (
         <div className="m-5">
-            <div className="flex w-[90vw] max-w-md mx-auto">
+            <div className="flex w-[80vw] max-w-md mx-auto">
                 {buttonTable.map((button)=>sortButton(button, selected))}
             </div>
 
@@ -263,6 +275,4 @@ export default function Recipe() {
             </ul>
         </div>
     )
-
-
 }
