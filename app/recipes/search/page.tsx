@@ -7,6 +7,7 @@ import { Pasuta} from "@/public";
 import { Cookie} from "@/public";
 import { useEffect, useState } from "react";
 import useApi from "@/hooks/useApi";
+import StarRating from "@/app/reviews/StarRating";
 
 export default function Recipe() {
     // 本文，見出しを設定できる関数
@@ -108,7 +109,6 @@ export default function Recipe() {
     //     obtainMaterials: 3,
     //     life: 4,
     //     taste: 1
-
     //     },
     // ];
     const [recipeList, setresipeList] = useState([]);
@@ -148,6 +148,15 @@ export default function Recipe() {
             </div>
         );
     }
+
+    function ratingFromReviews(reviews){
+        if(reviews.length == 0){
+            return 0;
+        }
+        let sum = 0;
+        reviews.forEach((review) => {sum+=review.rating})
+        return sum/reviews.length
+    }
     // デモデータを受けてカードを作成する関数
     // function recipeCard(recipeMap: { [x: string]: number; recipe_id?: number; title: any; image: any; materials: any; addedDate: any; rating: any; creationTime: any; obtainMaterials?: number; life?: number; taste?: number; 
     function recipeCard(recipeMap){
@@ -178,10 +187,11 @@ export default function Recipe() {
                         <Image className="w-full h-auto rounded-md" src={KatsuCurry} alt="料理画像" />
                     </div>
                     <div className="flex items-center mt-3">
-                        {iconImage(Heart, "ハートのアイコン")}
-                        {/* <span className="text-lg font-semibold ml-2">{recipeMap.rating}</span> */}
-                        <span className="text-lg font-semibold ml-2">{100}</span>
-                    </div>
+                        <div className="flex items-center">
+                            <StarRating rating={1} maxStars={1} />
+                            <span className="text-xl font-semibold ml-2 mb-2 " style={{ verticalAlign: 'middle' }}>{ratingFromReviews(recipeMap.reviews)}</span>
+                        </div>
+                    </div>      
                 </div>
             </div>
     
