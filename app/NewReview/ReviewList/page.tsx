@@ -12,29 +12,33 @@ const ReviewList = ({
   }>;
 }) => {
   return (
-    <div style={styles.reviewList}>
+    <div className="p-4 w-full">
       {reviews.map((review) => (
-        <div key={review.id}>
-          <h4 style={styles.name}>
-            {review.name}
+        <div
+          key={review.id}
+          className="rounded border mb-4 p-4 w-[400px]  bg-gray-200 space-x-4"
+        >
+          <div className="flex items-center gap-2 ">
+            <h4 className="text-lg font-bold">{review.name}</h4>
             <div
               key={review.difficulty}
-              className={`text-sm font-bold px-2 py-1 rounded border border-gray-300 ${"bg-green-500 text-white"}`}
+              className="text-sm font-bold px-2 py-1 rounded border border-gray-300 bg-green-500 text-white"
               style={{
                 display: "inline-flex",
                 justifyContent: "center",
                 alignItems: "center",
-                width: "20px", // Width of the box
-                height: "20px", // Height of the box
+                width: "20px",
+                height: "20px",
                 textAlign: "center",
-                lineHeight: "20px", // Match line height to height of the box
+                lineHeight: "20px",
               }}
             >
               {review.difficulty}
             </div>
-          </h4>
-          <StarRating rating={review.rating} />
-          <p style={styles.comment}>{review.comment}</p>
+
+            <StarRating rating={review.rating} />
+          </div>
+          <p className="text-gray-600 text-left">{review.comment}</p>
         </div>
       ))}
     </div>

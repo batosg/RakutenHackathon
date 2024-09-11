@@ -31,7 +31,7 @@ const AddReview = () => {
   };
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
-  const [difficulty, setDifficulty] = useState(1); // Default difficulty level is 1
+  const [difficulty, setDifficulty] = useState(1);
   const [files, setFiles] = useState<
     Array<{ name: string; path: string; url?: string }>
   >([]);
@@ -69,6 +69,18 @@ const AddReview = () => {
     setComment("");
     setDifficulty(1);
   };
+  const calculateAverageRating = () => {
+    const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
+    return reviews.length ? (totalRating / reviews.length).toFixed(1) : 0;
+  };
+
+  const calculateAverageDifficulty = () => {
+    const totalDifficulty = reviews.reduce(
+      (sum, review) => sum + review.difficulty,
+      0
+    );
+    return reviews.length ? (totalDifficulty / reviews.length).toFixed(1) : 0;
+  };
 
   return (
     <div className="mt-4 add-review">
@@ -96,7 +108,7 @@ const AddReview = () => {
       <div className="form-group">
         <label htmlFor="comment">Comment</label>
         <textarea
-          className="h-48 border-2 border-gray-300 rounded-lg p-4 placeholder-gray-500 focus:border-blue-500 focus:outline-none shadow-xl"
+          className="h-48 border-2 border-gray-300 rounded-lg p-4 placeholder-gray-500 focus:border-blue-500 focus:outline-none shadow-xl "
           id="comment"
           value={comment}
           onChange={(e) => setComment(e.target.value)}
@@ -153,27 +165,51 @@ const AddReview = () => {
               ))}
             </div>
           </div>
-          {/* photo */}
-          <div className="flex-grow"></div>
-          <div className="mt-4 grid grid-cols-2 gap-4">
+
+          <div className="mt-4 grid grid-cols-2 gap-4 ">
             {files.map((file, index) => (
               <div key={index} className="mb-2">
-                {
-                  <img
-                    src={file.url}
-                    alt={file.name}
-                    className="max-w-xs h-auto"
-                  />
-                }
+                <img
+                  src={file.url}
+                  alt={file.name}
+                  className="max-w-xs h-auto"
+                />
               </div>
             ))}
           </div>
+
+          <div className="mt-4">
+            <h3 className="text-xl font-semibold">
+              {calculateAverageRating()}
+              <span
+                className="inline-block"
+                style={{ color: "#ffc107", fontSize: "1.5rem" }}
+              >
+                ★
+              </span>{" "}
+            </h3>
+
+            <h3 className="text-xl font-semibold">
+              <div
+                className="text-lg font-bold px-2 py-1 rounded bg-green-500 text-white"
+                style={{
+                  display: "inline-flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  width: "40px",
+                  height: "40px",
+                  textAlign: "center",
+                  lineHeight: "20px",
+                }}
+              >
+                {calculateAverageDifficulty()}
+              </div>
+            </h3>
+          </div>
         </div>
         <Link href="../../">Go to Home Page</Link>
+        <ReviewList reviews={reviews} />
       </div>
-
-      {/* Display reviews */}
-      <ReviewList reviews={reviews} />
     </div>
   );
 };
