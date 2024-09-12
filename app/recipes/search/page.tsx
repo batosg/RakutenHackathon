@@ -1,132 +1,42 @@
 "use client";
 
-
-import { useEffect, useState } from "react";
-import useApi from "@/hooks/useApi";
+import { useEffect } from "react";
 import RecipeCard from "@/feature/recipes/components/RecipeCard";
+import { useSearch } from "@/feature/recipes/hooks/useSearch";
+import { useSearchContext } from '@/feature/recipes';
+import { Header } from "@/components";
 
-export default function RecipePage() {
-    const [recipeList, setresipeList] = useState([]);
-    // データベースからのの取得
-    const { data, error, loading, refetch } = useApi();
-    useEffect(() => {
-        refetch('/recipes', {
-            method: 'GET',
-            headers: {
-                'ngrok-skip-browser-warning': true,
-            }
-        });
-    }, [refetch])
-    useEffect(() => {
-        setresipeList(data);
-        console.log(data)
-    }, [data])    
+export default function RecipeSearchPage() {
 
-    function ratingFromReviews(reviews, key){
-        if(reviews.length == 0){
-            return 0;
+    const { searchQuery } = useSearchContext();
+    const { recipes, loading, error, search } = useSearch();
+
+    useEffect(() => {
+        if (searchQuery) {
+            search();
         }
-        let sum = 0;
-        reviews.forEach((review) => {sum+=review[key]})
-        return sum/reviews.length
-    }
-    
-    // ソート切り替えボタンを追跡するハンドラ
-    const [selected, setSelected] = useState(-1);
-    const handleClick = (buttonId) => {
-        setSelected(buttonId);
-    }
-    // ボタンのひな型
-    // 一行目
-    const buttonTable1 = [
-        {id: 0, name: "新着順", onClick: ()=>{sortByAddedDate(0)}},
-        {id: 1, name: "人気度順", onClick: ()=>{sortByRate(1)}},
-        {id: 2, name: "作成時間順", onClick: ()=>{sortByCreationTime(2)}},
-    ]
-    // 二行目
-    const buttonTable2 = [
-        {id: 3, name: "おいしさ順", onClick: ()=>{sortByWouldYouEatAgain(3)}},
-        {id: 4, name: "保存期間順", onClick: ()=>{sortByLontTeramStorage(4)}},
-        {id: 5, name: "材料難易度順", onClick: ()=>{sortByIngredientAcquisition(5)}},
-    ]
-    // 各種ソート関数
-    function sortListByFunction(list: any[], func: { (user: any): any; (user: any): any; (arg0: any): any; }) {
-        return list.sort((a, b) => {
-            const valueA = func(a);
-            const valueB = func(b);
-            
-            if (valueA < valueB) return -1;
-            if (valueA > valueB) return 1;
-            return 0;
-        });
-    }
-    function sortByAddedDate(id){
-        const newRecipe = sortListByFunction(recipeList, ((recipe)=>-(new Date(recipe.created_at)).getTime()))
-        setresipeList(newRecipe);
-        handleClick(id);
-    }
-    function sortByRate(id){
-        const newRecipe = sortListByFunction(recipeList, ((recipe)=>-ratingFromReviews(recipe.reviews, "rating")))
-        setresipeList(newRecipe);
-        handleClick(id);
-    }
-    function sortByCreationTime(id){
-        const newRecipe = sortListByFunction(recipeList, ((recipe)=>recipe.cooking_time))
-        setresipeList(newRecipe);
-        handleClick(id);
-    }
-    function sortByWouldYouEatAgain(id){
-        const newRecipe = sortListByFunction(recipeList, ((recipe)=>-ratingFromReviews(recipe.reviews, "would_eat_again")))
-        setresipeList(newRecipe);
-        handleClick(id);
-    }
-    function sortByLontTeramStorage(id){
-        const newRecipe = sortListByFunction(recipeList, ((recipe)=>-ratingFromReviews(recipe.reviews, "ease_of_long_term_storage")))
-        setresipeList(newRecipe);
-        handleClick(id);
-    }
-    function sortByIngredientAcquisition(id){
-        const newRecipe = sortListByFunction(recipeList, ((recipe)=>-ratingFromReviews(recipe.reviews, "ease_of_ingredient_acquisition")))
-        setresipeList(newRecipe);
-        handleClick(id);
-    }
-    // 選択されているかを受けてボタンのデザインを変化させる関数
-    function sortButton(button, selectedId){
-        return (<button className={`inline-flex items-center px-4 border text-sm ${button.id === selectedId ? "bg-blue-500 text-white" : 'bg-gray-200 text-gray-700'}`} onClick={button.onClick}>
-            {button.name}
-        </button>);
-    }
-    
+    }, [searchQuery, search]);
 
     return (
-        <div className="m-5">
-            <div className="flex w-[90vw] max-w-md mx-auto">
-                {buttonTable1.map((button)=>sortButton(button, selected))}
-            </div>
-            <div className="flex w-[90vw] max-w-md mx-auto">
-                {buttonTable2.map((button)=>sortButton(button, selected))}
-            </div>
-
-            <ul>
-            {loading && <p>Loading...</p>}
-        {error && <p>Error loading data.</p>}
-        {/* データがロードされていれば表示 */}
-        {recipeList && recipeList.length > 0 ? (
-            <ul>
-                {recipeList.map((recipe, index) => (
-                    <li key={index}>
-                        <RecipeCard 
-                            recipe={recipe} 
-                            on_click_card={()=>{}}
-                            on_click_right_button={()=>{}}
-                            is_local={false}
-                        />
-                    </li>
-                ))}
-            </ul>
-        ) : (
-            !loading && <p>No recipes found.</p>  // ロードが終わってもデータが空なら表示
-        )}
+        <div>
+            <Header />
+            <ul className="mt-4">
+                {loading && <p>Loading...</p>}
+                {error && <p>Error loading data: {error.message}</p>}
+                {recipes && recipes.length > 0 ? (
+                    recipes.map((recipe, index) => (
+                        <li key={index} className="mb-4">
+                            <RecipeCard
+                                recipe={recipe}
+                                on_click_card={() => { }}
+                                on_click_right_icon={() => { }}
+                                is_local={false}
+                            />
+                        </li>
+                    ))
+                ) : (
+                    !loading && <p>No recipes found.</p>
+                )}
             </ul>
         </div>
     )
