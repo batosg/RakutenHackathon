@@ -8,7 +8,7 @@ import { Cookie} from "@/public";
 import { useEffect, useState } from "react";
 import useApi from "@/hooks/useApi";
 import StarRating from "@/app/reviews/StarRating";
-import IconImage from "./iconimage";
+import IconImage from "../../../feature/recipes/components/IconImage";
 
 export default function Recipe() {
     // 本文，見出しを設定できる関数
@@ -53,7 +53,7 @@ export default function Recipe() {
     }
     // デモデータを受けてカードを作成する関数
     // function recipeCard(recipeMap: { [x: string]: number; recipe_id?: number; title: any; image: any; materials: any; addedDate: any; rating: any; creationTime: any; obtainMaterials?: number; life?: number; taste?: number; 
-    function recipeCard(recipeMap){
+    function recipeCard(recipeMap, ){
         return (
             <div className="w-[90vw] mx-auto my-5 flex">
                 <div className="bg-gray-300 rounded-lg p-5 flex-1">
