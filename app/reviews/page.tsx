@@ -14,8 +14,8 @@ const AddReview = () => {
     name: "楽天太郎",
     image: ProfileImage,
   };
-  const [recipe_id, setrecipe_id] = useState(0);
-  const [user_id, setuser_id] = useState(0);
+  const [recipe_id, setrecipe_id] = useState("");
+  const [user_id, setuser_id] = useState("");
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
   const [difficulty, setDifficulty] = useState(1);
@@ -69,15 +69,14 @@ const AddReview = () => {
         "ngrok-skip-browser-warning": true,
       },
       data: new URLSearchParams({
-        recipe_id: recipe_id.toString(),
-        user_id: user_id.toString(),
-        rating: rating.toString(),
+        recipe_id
+        user_id,
+        rating,
         comment,
-        ease_of_ingredient_acquisition:
-          ease_of_ingredient_acquisition.toString(),
-        ease_of_long_term_storage: ease_of_long_term_storage.toString(),
-        would_eat_again: would_eat_again.toString(),
-      }),
+        ease_of_ingredient_acquisition,
+        ease_of_long_term_storage,
+        would_eat_again,
+    }),
     });
 
     setRating(0);
