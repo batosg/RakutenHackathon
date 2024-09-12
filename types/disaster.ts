@@ -8,9 +8,9 @@ export interface Disaster {
 }
 
 export const UserStatus = {
-    Safe:"Safe",
-    Evacuating: "Evacuating",
-    Affected: "Affected",
+    Safe:"SAFE",
+    Evacuating: "EVACUATING",
+    Affected: "AFFECTED",
 }
 
 export interface UserDisaster{

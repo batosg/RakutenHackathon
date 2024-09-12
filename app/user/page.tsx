@@ -1,41 +1,13 @@
 "use client";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import Image, { StaticImageData } from "next/image";
 import { ProfileImage } from "@/public/";
 import { InputField } from "@/feature/auth";
 import { Disaster, UserDisaster, UserStatus } from "@/types/disaster";
 import SelectField from "@/feature/auth/components/SelectField";
+import useApi from "@/hooks/useApi";
 
 // デモデータ
-const user_id = "id_demo"
-
-const DisasterDemo :Disaster[]= [
-  {
-    disaster_id: "a", 
-    description: "中部地方で発生した震度5の地震", 
-    main_affected_area: "中部地方", 
-    occurrrence_date: "2024-12-31", 
-    created_at:"2024-12-31", 
-    updated_at: "2024-12-31"
-  },  
-  {
-    disaster_id: "b", 
-    description: "沖縄県を襲った台風23号", 
-    main_affected_area: "沖縄県", 
-    occurrrence_date: "2024-11-31", 
-    created_at:"2024-11-31", 
-    updated_at: "2024-11-31"
-  },  
-  {
-    disaster_id: "c", 
-    description: "関東都心部で発生した局地的豪雨", 
-    main_affected_area: "関東都心部", 
-    occurrrence_date: "2024-10-21", 
-    created_at:"2024-10-21", 
-    updated_at: "2024-10-1"
-  }
-];
-
 interface User {
   name: string;
   image: StaticImageData;
@@ -51,7 +23,57 @@ interface User {
   user_disaster: UserDisaster | null; // Disaster または null を許容
 }
 
+function sortListByFunction(list: any[], func: { (user: any): any; (user: any): any; (arg0: any): any; }) {
+  return list.sort((a, b) => {
+    const valueA = func(a);
+    const valueB = func(b);
+    
+    if (valueA < valueB) return -1;
+    if (valueA > valueB) return 1;
+    return 0;
+  });
+}
+
 const ProfileScreen = () => {
+  const user_id = "988ad7ee-03f2-4b4c-a1c8-8bea6eed5d18"
+  const not_disaster_id = "8d4a75b7-9585-435a-8cc2-e760f4b1785e"
+
+  const [disasters, setDisasters] = useState([]);
+  const getDisasterListAPI = useApi();
+  useEffect(() => {
+    getDisasterListAPI.refetch('/disasters/', {
+        method: 'GET',
+        headers: {
+            'ngrok-skip-browser-warning': true,
+        }
+    });
+  }, [getDisasterListAPI.refetch])
+  useEffect(() => {
+      handleDisasters(getDisasterListAPI.data);
+      console.log('fdasjl;dkaljah;')
+      console.log(getDisasterListAPI.data)
+  }, [getDisasterListAPI.data]) 
+  
+  // const handleDisasters = (data)=>{
+  //   setDisasters(
+  //     sortListByFunction(data, (value=>)
+  //   )
+  // }
+  // 現在の被災状況の取得
+  const getCurrentDisasterAPI = useApi();
+  useEffect(()=>{
+    getCurrentDisasterAPI.refetch(`/disasters/user-status/${user_id}`, {
+        method: 'GET',
+        headers: {
+          'ngrok-skip-browser-warning': true,
+        }
+    });
+  }, [getCurrentDisasterAPI.refetch]);
+  useEffect(() => {
+    setCurrentDisasters(getCurrentDisasterAPI.data);
+    console.log(getCurrentDisasterAPI.data)
+  }, [getCurrentDisasterAPI.data]) 
+
   const [user, setUser] = useState<User>({
     name: "楽天太郎",
     image: ProfileImage,
@@ -66,6 +88,20 @@ const ProfileScreen = () => {
     otherDishes: "",
     user_disaster: null, 
   });
+
+  const setCurrentDisasters = (value: any[]) => {
+    if(value && value.length>0){
+      const currentValue = value[0];
+      setUser((prevUser) => ({
+        ...prevUser,
+        user_disaster: {
+          user_id: user_id,
+          disaster_id: currentValue.disaster_id,
+          status: currentValue.status
+        }
+      }))
+    }
+  }
 
   const handleInputChange = (e: { target: { id: any; value: any } }) => {
     const { id, value } = e.target;
@@ -114,6 +150,24 @@ const ProfileScreen = () => {
     }))
   }
 
+  function onClickSaveButton(){
+    console.log("save");
+    if(user.user_disaster != null){
+      updateUserDisaster(user.user_disaster.user_id, user.user_disaster.disaster_id, "SAFE")
+    }
+    console.log(disasters)
+  }
+
+  const disasterPostAPI = useApi();
+  const updateUserDisaster = useCallback((user_id: string, disaster_id: string, status: string)=>{
+    disasterPostAPI.refetch("/disasters/user-status", {
+      method: "POST",
+      headers: {
+        'ngrok-skip-browser-warning': true,
+    },
+      data: new URLSearchParams({ user_id, disaster_id, status})
+    })
+  }, [disasterPostAPI.refetch]);
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
@@ -151,14 +205,14 @@ const ProfileScreen = () => {
             onChange={handleInputChange}
           />
         </div>
-
-        <div className="mb-8">
+        {disasters && disasters.length > 0 ?
+        (<div className="mb-8">
           <label className="font-bold ">被災情報</label>
           <SelectField 
             label={"被災されている災害を選択してください？"} 
-            value={user.user_disaster?.disaster_id ?? "ImNotInDisaster"} 
+            value={user.user_disaster?.disaster_id ?? "404 (Not Found)"} 
             onChange={selectDisaster} 
-            options={[{value: "ImNotInDisaster", label:"被災していない"}, ...DisasterDemo.map((disaster)=>({value: disaster.disaster_id, label: disaster.description}))]} 
+            options={disasters.map((disaster)=>({value: disaster.disaster_id, label: disaster.description}))} 
             placeholder={""}
             disabled={false} 
             id={""}            
@@ -176,7 +230,7 @@ const ProfileScreen = () => {
             disabled={user.user_disaster == null} 
             id={""}            
           />
-        </div>
+        </div>):!getDisasterListAPI.loading && <p>No recipes found.</p>}
 
         <div className="mb-8">
           <label className="font-bold ">レシピのフィルター設定</label>
@@ -209,6 +263,7 @@ const ProfileScreen = () => {
       <button
         className="w-full bg-accent text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         type="button"
+        onClick={onClickSaveButton}
       >
         保存
       </button>
