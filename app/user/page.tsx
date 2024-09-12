@@ -23,54 +23,56 @@ interface User {
   user_disaster: UserDisaster | null; // Disaster または null を許容
 }
 
+function sortListByFunction(list: any[], func: { (user: any): any; (user: any): any; (arg0: any): any; }) {
+  return list.sort((a, b) => {
+    const valueA = func(a);
+    const valueB = func(b);
+    
+    if (valueA < valueB) return -1;
+    if (valueA > valueB) return 1;
+    return 0;
+  });
+}
+
 const ProfileScreen = () => {
   const user_id = "988ad7ee-03f2-4b4c-a1c8-8bea6eed5d18"
-  
+  const not_disaster_id = "8d4a75b7-9585-435a-8cc2-e760f4b1785e"
+
   const [disasters, setDisasters] = useState([]);
-  const { data, error, loading, refetch } = useApi();
+  const getDisasterListAPI = useApi();
   useEffect(() => {
-    refetch('/disasters/', {
+    getDisasterListAPI.refetch('/disasters/', {
         method: 'GET',
         headers: {
             'ngrok-skip-browser-warning': true,
         }
     });
-  }, [refetch])
+  }, [getDisasterListAPI.refetch])
   useEffect(() => {
-      setDisasters(data);
-      console.log(data)
-  }, [data])    
-
-
-  // const disasters :Disaster[]= [
-  //   {
-  //     disaster_id: "a", 
-  //     description: "中部地方で発生した震度5の地震", 
-  //     main_affected_area: "中部地方", 
-  //     occurrrence_date: "2024-12-31", 
-  //     created_at:"2024-12-31", 
-  //     updated_at: "2024-12-31"
-  //   },  
-  //   {
-  //     disaster_id: "b", 
-  //     description: "沖縄県を襲った台風23号", 
-  //     main_affected_area: "沖縄県", 
-  //     occurrrence_date: "2024-11-31", 
-  //     created_at:"2024-11-31", 
-  //     updated_at: "2024-11-31"
-  //   },  
-  //   {
-  //     disaster_id: "c", 
-  //     description: "関東都心部で発生した局地的豪雨", 
-  //     main_affected_area: "関東都心部", 
-  //     occurrrence_date: "2024-10-21", 
-  //     created_at:"2024-10-21", 
-  //     updated_at: "2024-10-1"
-  //   }
-  // ];
-
-
-
+      handleDisasters(getDisasterListAPI.data);
+      console.log('fdasjl;dkaljah;')
+      console.log(getDisasterListAPI.data)
+  }, [getDisasterListAPI.data]) 
+  
+  // const handleDisasters = (data)=>{
+  //   setDisasters(
+  //     sortListByFunction(data, (value=>)
+  //   )
+  // }
+  // 現在の被災状況の取得
+  const getCurrentDisasterAPI = useApi();
+  useEffect(()=>{
+    getCurrentDisasterAPI.refetch(`/disasters/user-status/${user_id}`, {
+        method: 'GET',
+        headers: {
+          'ngrok-skip-browser-warning': true,
+        }
+    });
+  }, [getCurrentDisasterAPI.refetch]);
+  useEffect(() => {
+    setCurrentDisasters(getCurrentDisasterAPI.data);
+    console.log(getCurrentDisasterAPI.data)
+  }, [getCurrentDisasterAPI.data]) 
 
   const [user, setUser] = useState<User>({
     name: "楽天太郎",
@@ -86,6 +88,20 @@ const ProfileScreen = () => {
     otherDishes: "",
     user_disaster: null, 
   });
+
+  const setCurrentDisasters = (value: any[]) => {
+    if(value && value.length>0){
+      const currentValue = value[0];
+      setUser((prevUser) => ({
+        ...prevUser,
+        user_disaster: {
+          user_id: user_id,
+          disaster_id: currentValue.disaster_id,
+          status: currentValue.status
+        }
+      }))
+    }
+  }
 
   const handleInputChange = (e: { target: { id: any; value: any } }) => {
     const { id, value } = e.target;
@@ -194,9 +210,9 @@ const ProfileScreen = () => {
           <label className="font-bold ">被災情報</label>
           <SelectField 
             label={"被災されている災害を選択してください？"} 
-            value={user.user_disaster?.disaster_id ?? "ImNotInDisaster"} 
+            value={user.user_disaster?.disaster_id ?? "404 (Not Found)"} 
             onChange={selectDisaster} 
-            options={[{value: "ImNotInDisaster", label:"被災していない"}, ...disasters.map((disaster)=>({value: disaster.disaster_id, label: disaster.description}))]} 
+            options={disasters.map((disaster)=>({value: disaster.disaster_id, label: disaster.description}))} 
             placeholder={""}
             disabled={false} 
             id={""}            
@@ -214,7 +230,7 @@ const ProfileScreen = () => {
             disabled={user.user_disaster == null} 
             id={""}            
           />
-        </div>):!loading && <p>No recipes found.</p>}
+        </div>):!getDisasterListAPI.loading && <p>No recipes found.</p>}
 
         <div className="mb-8">
           <label className="font-bold ">レシピのフィルター設定</label>
