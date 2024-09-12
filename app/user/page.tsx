@@ -1,5 +1,5 @@
 "use client";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import Image, { StaticImageData } from "next/image";
 import { ProfileImage } from "@/public/";
 import { InputField } from "@/feature/auth";
@@ -41,7 +41,7 @@ const ProfileScreen = () => {
       console.log(data)
   }, [data])    
 
-  
+
   // const disasters :Disaster[]= [
   //   {
   //     disaster_id: "a", 
@@ -134,9 +134,24 @@ const ProfileScreen = () => {
     }))
   }
 
-  const onClickSaveButton = ()=>{
-    console.log(user)
+  function onClickSaveButton(){
+    console.log("save");
+    if(user.user_disaster != null){
+      updateUserDisaster(user.user_disaster.user_id, user.user_disaster.disaster_id, "SAFE")
+    }
+    console.log(disasters)
   }
+
+  const disasterPostAPI = useApi();
+  const updateUserDisaster = useCallback((user_id: string, disaster_id: string, status: string)=>{
+    disasterPostAPI.refetch("/disasters/user-status", {
+      method: "POST",
+      headers: {
+        'ngrok-skip-browser-warning': true,
+    },
+      data: new URLSearchParams({ user_id, disaster_id, status})
+    })
+  }, [disasterPostAPI.refetch]);
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
@@ -174,9 +189,6 @@ const ProfileScreen = () => {
             onChange={handleInputChange}
           />
         </div>
-        {loading && <p>Loading...</p>}
-        {error && <p>Error loading data.</p>}
-        {/* データがロードされていれば表示 */}
         {disasters && disasters.length > 0 ?
         (<div className="mb-8">
           <label className="font-bold ">被災情報</label>
