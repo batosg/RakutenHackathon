@@ -259,7 +259,6 @@ export default function Recipe() {
             {button.name}
         </button>);
     }
-
     return (
         <div className="m-5">
             <div className="flex w-[80vw] max-w-md mx-auto">
