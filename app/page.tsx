@@ -1,10 +1,11 @@
+"use client";
+
 import { CategoryCollapse, Pickup, ToolTag } from "@/feature/recipes";
 import { KatsuCurry } from "@/public";
 import { categories, labels } from '@/constants/recipe';
 import { Header, Searchbar } from '@/components';
 import { TipsItem } from "@/feature/tips";
 import { tipsContent } from "@/constants/tips";
-import { Petbottle } from '@/public/index';
 
 export default function Home() {
 
@@ -25,7 +26,7 @@ export default function Home() {
       {/*お手持ちの調理器具から検索パート*/}
       <div className="w-full px-6">
         <h2 className="w-full text-lg mt-7 mb-3 font-bold">お手持ちの調理器具から検索</h2>
-        <div>
+        <div className="w-full">
           <Searchbar />
         </div>
       </div>
