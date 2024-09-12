@@ -26,82 +26,7 @@ export default function Recipe() {
         }
     }
 
-    // レシピを表すカードの描写に関する部分
-    // デモデータ    
-    // const recipes = [
-    //     {
-    //         recipe_id: 0,
-    //         title: "炊き込みご飯",
-    //         image: TakikomiImage,
-    //         materials: ["米", "キノコ", "醤油"],
-    //         addedDate: new Date("2024-09-11T10:00:00Z"),
-    //         rating: 20,
-    //         creationTime: 40,
-    //         obtainMaterials: 3,
-    //         life: 2,
-    //         taste: 4
-    //     },
-    //     {
-    //     recipe_id: 1,
-    //     title: "和風キノコパスタ",
-    //     image: Pasuta,
-    //     materials: ["乾麺", "キノコ", "醤油", "バター", "塩"],
-    //     addedDate: new Date("2024-09-13T10:00:00Z"),
-    //     rating: 30,
-    //     creationTime: 15,
-    //     obtainMaterials: 2,
-    //     life: 5,
-    //     taste: 1
-    //     },
-    //     {
-    //     recipe_id: 2,
-    //     title: "手作りクッキー",
-    //     image: Cookie,
-    //     materials: ["卵", "砂糖", "小麦粉", "バター", "塩"],
-    //     addedDate: new Date("2024-08-10T10:00:00Z"),
-    //     rating: 78,
-    //     creationTime: 40,
-    //     obtainMaterials: 2,
-    //     life: 1,
-    //     taste: 3
-    //     },
-    //     {
-    //     recipe_id: 3,
-    //     title: "とろろそば",
-    //     image: Soba,
-    //     materials: ["乾麺", "ねぎ", "山芋", "めんつゆ", "ワサビ"],
-    //     addedDate: new Date("2024-02-10T10:00:00Z"),
-    //     rating: 2,
-    //     creationTime: 12,
-    //     obtainMaterials: 4,
-    //     life: 4,
-    //     taste: 1
-    //     },
-    //     {
-    //     recipe_id: 4,
-    //     title: "カツカレー",
-    //     image: KatsuCurry,
-    //     materials: ["レトルトカレー", "米", "ひれ肉", "卵", "片栗粉", "パン粉", "野菜（お好み）"],
-    //     addedDate: new Date("2024-05-10T10:00:00Z"),
-    //     rating: 201,
-    //     creationTime: 20,
-    //     obtainMaterials: 5,
-    //     life: 2,
-    //     taste: 3,
-    //     },
-    //     {
-    //     recipe_id: 5,
-    //     title: "タコライス",
-    //     image: TacoRice,
-    //     materials: ["米", "カレー粉", "キャベツ", "チーズ", "タバスコ"],
-    //     addedDate: new Date("2023-12-10T10:00:00Z"),
-    //     rating: 22,
-    //     creationTime: 10,
-    //     obtainMaterials: 3,
-    //     life: 4,
-    //     taste: 1
-    //     },
-    // ];
+
     const [recipeList, setresipeList] = useState([]);
     // データベースからのの取得
     const { data, error, loading, refetch } = useApi();
@@ -116,31 +41,7 @@ export default function Recipe() {
     useEffect(() => {
         setresipeList(data);
         console.log(data)
-    }, [data])
-    // 評価値を表すアイコンのmap
-    const iconMap = [
-        {key: "obtainMaterials", colorIcon: Carrot, grayIcon: CarrotGray, text:"素材の調達は簡単でしたか"},
-        {key: "life", colorIcon: Refrigerator, grayIcon: RefrigeratorGray, text:"長期保存はしやすいと感じますか"},
-        {key: "taste", colorIcon: Folk, grayIcon: FolkGray, text: "もう一度食べたいと思いますか"},
-    ];
-    function rateIcons(rate: number, ColordIcon: StaticImageData, GrayIcon: StaticImageData, text: string) {
-        // 評価の最大値の5まで繰り返す
-        const iconList = Array.from({ length: 5 }, (_, i) => i < rate ? ColordIcon : GrayIcon);
-    
-        return (
-            <div className="mt-1 mb-1">
-                <ul className="flex list-none p-0 m-0">
-                    {iconList.map((item, index) => (
-                        <li key={index} className="mr-1">
-                            <IconImage src={item} text={text} />
-                        </li>
-                    ))}
-                </ul>
-            </div>
-        );
-    }
-
-    
+    }, [data])    
 
     function ratingFromReviews(reviews, key){
         if(reviews.length == 0){
@@ -155,50 +56,44 @@ export default function Recipe() {
     function recipeCard(recipeMap){
         return (
             <div className="w-[90vw] mx-auto my-5 flex">
-                <div className="flex-1 bg-gray-300 rounded-lg p-5 flex">
-                    <div className="w-2/3 text-left pr-4">
-                        {middleHeading(recipeMap.title)}
-                        {baseText(`材料 ：${materialsText(recipeMap.ingredients.map((element)=>element.name))}`)}
-                        {baseText(`作成時間 ：${recipeMap.cooking_time}分`)}
-                        <ul className="list-none p-0">
-                            {iconMap.map((iconMap, index) => (
-                                <li key={index} className="inline-block mr-2">
-                                    {rateIcons(3, iconMap.colorIcon, iconMap.grayIcon, iconMap.text)}
-                                </li>
-                            ))}
-                        </ul>
-                        {baseText(`投稿日時 ：${(new Date(recipeMap.created_at)).toLocaleDateString('ja-JP', {
-                            year: 'numeric',
-                            month: '2-digit',
-                            day: '2-digit',
-                        })}`)}
+                <div className="bg-gray-300 rounded-lg p-5 flex-1">
+                    <div className="flex-1 flex">
+                        <div className="w-2/3 text-left pr-4">
+                            {middleHeading(recipeMap.title)}
+                            {baseText(`材料 ：${materialsText(recipeMap.ingredients.map((element)=>element.name))}`)}
+                            {baseText(`作成時間 ：${recipeMap.cooking_time}分`)}
+                            {baseText(`投稿日時 ：${(new Date(recipeMap.created_at)).toLocaleDateString('ja-JP', {
+                                year: 'numeric',
+                                month: '2-digit',
+                                day: '2-digit',
+                            })}`)}
+                        </div>
+                        <div className="w-1/3 flex flex-col justify-between">
+                            <div className="relative aspect-square">
+                                {/* <Image className="w-full h-auto rounded-md" src={recipeMap.image} alt="料理画像" /> */}
+                                <Image className="object-contain" fill src={recipeMap.image_url} alt="料理画像" />
+                                </div>
+                        </div>
                     </div>
-    
-                    <div className="w-1/3 flex flex-col justify-between">
-                    <div className="flex flex-col items-center">
-                        {/* <Image className="w-full h-auto rounded-md" src={recipeMap.image} alt="料理画像" /> */}
-                        <Image className="w-[1/3] h-auto rounded-md" src={recipeMap.image_url} alt="料理画像" />
-                    </div>
-                    <div className="flex items-center mt-3">
-                        <div className="flex items-center">
-                            <IconImage src={Folk} text={"おいしさ"} />
-                            <span className="text-xl font-semibold ml-2 mb-2 " style={{ verticalAlign: 'middle' }}>{ratingFromReviews(recipeMap.reviews)}</span>
-                        </div>
-                        <div className="flex items-center">
-                            <IconImage src={Refrigerator} text={"保存期間"} />
-                            <span className="text-xl font-semibold ml-2 mb-2 " style={{ verticalAlign: 'middle' }}>{ratingFromReviews(recipeMap.reviews)}</span>
-                        </div>
-                        <div className="flex items-center">
-                            <IconImage src={Carrot} text={"材料取得難易度"} />
-                            <span className="text-xl font-semibold ml-2 mb-2 " style={{ verticalAlign: 'middle' }}>{ratingFromReviews(recipeMap.reviews)}</span>
-                        </div>
-                        <div className="flex items-center">
-                            <StarRating rating={1} maxStars={1} />
-                            <span className="text-xl font-semibold ml-2 mb-2 " style={{ verticalAlign: 'middle' }}>{ratingFromReviews(recipeMap.reviews, "rating")}</span>
-                        </div>
-                    </div>      
+                    <div className="items-center mt-3 flex justify-around">
+                            <div className="flex items-center">
+                                <IconImage src={Folk} text={"おいしさ"} />
+                                <span className="text-xl font-semibold ml-1 mr-3 mb-1 " style={{ verticalAlign: 'middle' }}>{ratingFromReviews(recipeMap.reviews, "would_eat_again")}</span>
+                            </div>
+                            <div className="flex items-center">
+                                <IconImage src={Refrigerator} text={"保存期間"} />
+                                <span className="text-xl font-semibold ml-1 mr-3 mb-1 " style={{ verticalAlign: 'middle' }}>{ratingFromReviews(recipeMap.reviews, "ease_of_long_term_storage")}</span>
+                            </div>
+                            <div className="flex items-center">
+                                <IconImage src={Carrot} text={"材料取得難易度"} />
+                                <span className="text-xl font-semibold ml-1 mr-3 mb-1 " style={{ verticalAlign: 'middle' }}>{ratingFromReviews(recipeMap.reviews, "ease_of_ingredient_acquisition")}</span>
+                            </div>
+                            <div className="flex items-center">
+                                <StarRating rating={1} maxStars={1} />
+                                <span className="text-xl font-semibold ml-1 mr-3 mb-1 " style={{ verticalAlign: 'middle' }}>{ratingFromReviews(recipeMap.reviews, "rating")}</span>
+                            </div>
+                        </div>  
                 </div>
-            </div>
     
                 <div className="min-w-[30px] flex flex-col items-center justify-start px-3">
                     <div className="flex-none">
@@ -216,10 +111,17 @@ export default function Recipe() {
         setSelected(buttonId);
     }
     // ボタンのひな型
-    const buttonTable = [
+    // 一行目
+    const buttonTable1 = [
         {id: 0, name: "新着順", onClick: ()=>{sortByAddedDate(0)}},
         {id: 1, name: "人気度順", onClick: ()=>{sortByRate(1)}},
         {id: 2, name: "作成時間順", onClick: ()=>{sortByCreationTime(2)}},
+    ]
+    // 二行目
+    const buttonTable2 = [
+        {id: 3, name: "おいしさ順", onClick: ()=>{sortByWouldYouEatAgain(3)}},
+        {id: 4, name: "保存期間順", onClick: ()=>{sortByLontTeramStorage(4)}},
+        {id: 5, name: "材料難易度順", onClick: ()=>{sortByIngredientAcquisition(5)}},
     ]
     // 各種ソート関数
     function sortListByFunction(list: any[], func: { (user: any): any; (user: any): any; (arg0: any): any; }) {
@@ -238,7 +140,7 @@ export default function Recipe() {
         handleClick(id);
     }
     function sortByRate(id){
-        const newRecipe = sortListByFunction(recipeList, ((recipe)=>-recipe.rating))
+        const newRecipe = sortListByFunction(recipeList, ((recipe)=>-ratingFromReviews(recipe.reviews, "rating")))
         setresipeList(newRecipe);
         handleClick(id);
     }
@@ -247,19 +149,37 @@ export default function Recipe() {
         setresipeList(newRecipe);
         handleClick(id);
     }
+    function sortByWouldYouEatAgain(id){
+        const newRecipe = sortListByFunction(recipeList, ((recipe)=>-ratingFromReviews(recipe.reviews, "would_eat_again")))
+        setresipeList(newRecipe);
+        handleClick(id);
+    }
+    function sortByLontTeramStorage(id){
+        const newRecipe = sortListByFunction(recipeList, ((recipe)=>-ratingFromReviews(recipe.reviews, "ease_of_long_term_storage")))
+        setresipeList(newRecipe);
+        handleClick(id);
+    }
+    function sortByIngredientAcquisition(id){
+        const newRecipe = sortListByFunction(recipeList, ((recipe)=>-ratingFromReviews(recipe.reviews, "ease_of_ingredient_acquisition")))
+        setresipeList(newRecipe);
+        handleClick(id);
+    }
     // 選択されているかを受けてボタンのデザインを変化させる関数
     function sortButton(button, selectedId){
-        return (<button className={`inline-flex items-center px-4 border ${button.id === selectedId ? "bg-blue-500 text-white" : 'bg-gray-200 text-gray-700'}`} onClick={button.onClick}>
+        return (<button className={`inline-flex items-center px-4 border text-sm ${button.id === selectedId ? "bg-blue-500 text-white" : 'bg-gray-200 text-gray-700'}`} onClick={button.onClick}>
             {button.name}
         </button>);
     }
+    
 
     return (
         <div className="m-5">
-            <div className="flex w-[80vw] max-w-md mx-auto">
-                {buttonTable.map((button)=>sortButton(button, selected))}
+            <div className="flex w-[90vw] max-w-md mx-auto">
+                {buttonTable1.map((button)=>sortButton(button, selected))}
             </div>
-
+            <div className="flex w-[90vw] max-w-md mx-auto">
+                {buttonTable2.map((button)=>sortButton(button, selected))}
+            </div>
 
             <ul>
             {loading && <p>Loading...</p>}
@@ -279,6 +199,4 @@ export default function Recipe() {
             </ul>
         </div>
     )
-
-
 }
