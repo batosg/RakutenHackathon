@@ -10,39 +10,23 @@ import useApi from "@/hooks/useApi";
 import ReviewCriteria from "./ReviewCriteria/page";
 
 const AddReview = () => {
-  // const [reviews, setReviews] = useState([
-  //   {
-  //     id: "1",
-  //     name: "Rakuten Batos",
-  //     rating: 4,
-  //     comment: "This product is great!",
-  //     difficulty: 3,
-  //   },
-  //   { id: "2", name: "Bob", rating: 3, comment: "Not good", difficulty: 2 },
-  //   { id: "3", name: "Charlie", rating: 5, comment: "Nice", difficulty: 4 },
-  //   {
-  //     id: "4",
-  //     name: "Diana",
-  //     rating: 2,
-  //     comment: "This product is bad!",
-  //     difficulty: 1,
-  //   },
-  // ]);
   const user = {
     name: "楽天太郎",
     image: ProfileImage,
   };
+  const [recipe_id, setrecipe_id] = useState(0);
+  const [user_id, setuser_id] = useState(0);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
   const [difficulty, setDifficulty] = useState(1);
-  const [acc, setAcc] = useState(1);
-  const [stor, setStor] = useState(1);
-  const [eat, setEat] = useState(1);
+  const [ease_of_ingredient_acquisition, setease_of_ingredient_acquisition] =
+    useState(1);
+  const [ease_of_long_term_storage, setease_of_long_term_storage] = useState(1);
+  const [would_eat_again, setwould_eat_again] = useState(1);
   const [files, setFiles] = useState<
     Array<{ name: string; path: string; url?: string }>
   >([]);
-  const user_id = "988ad7ee-03f2-4b4c-a1c8-8bea6eed5d18";
-  const { data, error, loading, refetch } = useApi();
+  const { data, refetch } = useApi();
   useEffect(() => {
     refetch(`/reviews/recipe/2138a252-ceb7-4906-8c1d-5bd7f636218e`, {
       method: "GET",
@@ -51,7 +35,9 @@ const AddReview = () => {
       },
     });
   }, [refetch]);
-  useEffect(() => {}, [data]);
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = event.target.files;
@@ -77,30 +63,33 @@ const AddReview = () => {
       difficulty,
     };
 
-    // setReviews((prevReviews) => [
-    //   ...prevReviews,
-    //   { ...newReview, id: String(prevReviews.length + 1), name: user.name },
-    // ]);
+    refetch("/review", {
+      method: "POST",
+      headers: {
+        "ngrok-skip-browser-warning": true,
+      },
+      data: new URLSearchParams({
+        recipe_id: recipe_id.toString(),
+        user_id: user_id.toString(),
+        rating: rating.toString(),
+        comment,
+        ease_of_ingredient_acquisition:
+          ease_of_ingredient_acquisition.toString(),
+        ease_of_long_term_storage: ease_of_long_term_storage.toString(),
+        would_eat_again: would_eat_again.toString(),
+      }),
+    });
 
     setRating(0);
     setComment("");
     setDifficulty(1);
-    setAcc(1);
-    setStor(1);
-    setEat(1);
+    setease_of_ingredient_acquisition(1);
+    setease_of_long_term_storage(1);
+    setwould_eat_again(1);
   };
-  // const calculateAverageRating = () => {
-  //   const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
-  //   return reviews.length ? (totalRating / reviews.length).toFixed(1) : 0;
-  // };
-
-  // const calculateAverageDifficulty = () => {
-  //   const totalDifficulty = reviews.reduce(
-  //     (sum, review) => sum + review.difficulty,
-  //     0
-  //   );
-  //   return reviews.length ? (totalDifficulty / reviews.length).toFixed(1) : 0;
-  // };
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
 
   return (
     <div className="mt-4 add-review">
@@ -180,35 +169,16 @@ const AddReview = () => {
                 </div>
               ))}
             </div>
-
-            {/* <div className="mt-6">
-              <h3 className="text-xl font-semibold mb-2">
-                {calculateAverageRating()}
-                <span
-                  className="inline-block text-yellow-500"
-                  style={{ fontSize: "1.5rem" }}
-                >
-                  ★
-                </span>
-              </h3>
-
-              <h3 className="text-xl font-semibold">
-                <div
-                  className="text-lg font-bold px-4 py-2 rounded bg-green-500 text-white inline-flex items-center justify-center"
-                  style={{
-                    width: "40px",
-                    height: "40px",
-                    textAlign: "center",
-                  }}
-                >
-                  {calculateAverageDifficulty()}
-                </div>
-              </h3>
-            </div> */}
           </div>
         </div>
-        <Link href="../../">Go to Home Page</Link>
+
         <ReviewList reviews={data} />
+        <Link
+          className="bg-accent text-white text-center px-10 py-2 w-full rounded-lg hover:opacity-30"
+          href="../../"
+        >
+          Go to Home Page
+        </Link>
       </div>
     </div>
   );
