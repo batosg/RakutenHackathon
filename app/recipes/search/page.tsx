@@ -1,26 +1,23 @@
 "use client";
 
 import Image, { StaticImageData } from "next/image";
-import { Carrot, CarrotGray, Folk, FolkGray, Heart, KatsuCurry, Refrigerator, RefrigeratorGray, Save, Soba, TacoRice, TakikomiImage} from "@/public/";
-import { ProfileImage} from "@/public/";
-import { Pasuta} from "@/public";
-import { Cookie} from "@/public";
+import { Carrot, CarrotGray, Cookie, Folk, Heart, KatsuCurry, Pasuta, Refrigerator, Save, Soba, TacoRice, TakikomiImage } from "@/public/";
 import { useEffect, useState } from "react";
 import useApi from "@/hooks/useApi";
 
 export default function Recipe() {
     // 本文，見出しを設定できる関数
-    const baseText = (text:string) => <div className="mb-4s text-left text-sm">{text}</div>;
-    const middleHeading = (text:string) => <div className="mb-4s text-left text-sm font-bold">{text}</div>;
+    const baseText = (text: string) => <div className="mb-4s text-left text-sm">{text}</div>;
+    const middleHeading = (text: string) => <div className="mb-4s text-left text-sm font-bold">{text}</div>;
     // 材料の省略表記を出力する関数
 
-    function materialsText(materials: string[]){
+    function materialsText(materials: string[]) {
         // 表示する材料の最大個数，これを上回るものは"…"で省略される
         const maxMaterials = 3;
-        if(materials.length <= maxMaterials){
+        if (materials.length <= maxMaterials) {
             return materials.join(", ")
-        }else{
-            return materials.slice(0,maxMaterials).join(", ") + " …"
+        } else {
+            return materials.slice(0, maxMaterials).join(", ") + " …"
         }
     }
     // アイコン画像を作成する関数
@@ -50,7 +47,7 @@ export default function Recipe() {
     useEffect(() => {
         console.log(data);
     }, [data])
-    
+
     const recipes = [
         {
             recipe_id: 0,
@@ -65,81 +62,81 @@ export default function Recipe() {
             taste: 4
         },
         {
-        recipe_id: 1,
-        title: "和風キノコパスタ",
-        image: Pasuta,
-        materials: ["乾麺", "キノコ", "醤油", "バター", "塩"],
-        addedDate: new Date("2024-09-13T10:00:00Z"),
-        rating: 30,
-        creationTime: 15,
-        obtainMaterials: 2,
-        life: 5,
-        taste: 1
+            recipe_id: 1,
+            title: "和風キノコパスタ",
+            image: Pasuta,
+            materials: ["乾麺", "キノコ", "醤油", "バター", "塩"],
+            addedDate: new Date("2024-09-13T10:00:00Z"),
+            rating: 30,
+            creationTime: 15,
+            obtainMaterials: 2,
+            life: 5,
+            taste: 1
         },
         {
-        recipe_id: 2,
-        title: "手作りクッキー",
-        image: Cookie,
-        materials: ["卵", "砂糖", "小麦粉", "バター", "塩"],
-        addedDate: new Date("2024-08-10T10:00:00Z"),
-        rating: 78,
-        creationTime: 40,
-        obtainMaterials: 2,
-        life: 1,
-        taste: 3
+            recipe_id: 2,
+            title: "手作りクッキー",
+            image: Cookie,
+            materials: ["卵", "砂糖", "小麦粉", "バター", "塩"],
+            addedDate: new Date("2024-08-10T10:00:00Z"),
+            rating: 78,
+            creationTime: 40,
+            obtainMaterials: 2,
+            life: 1,
+            taste: 3
         },
         {
-        recipe_id: 3,
-        title: "とろろそば",
-        image: Soba,
-        materials: ["乾麺", "ねぎ", "山芋", "めんつゆ", "ワサビ"],
-        addedDate: new Date("2024-02-10T10:00:00Z"),
-        rating: 2,
-        creationTime: 12,
-        obtainMaterials: 4,
-        life: 4,
-        taste: 1
+            recipe_id: 3,
+            title: "とろろそば",
+            image: Soba,
+            materials: ["乾麺", "ねぎ", "山芋", "めんつゆ", "ワサビ"],
+            addedDate: new Date("2024-02-10T10:00:00Z"),
+            rating: 2,
+            creationTime: 12,
+            obtainMaterials: 4,
+            life: 4,
+            taste: 1
         },
         {
-        recipe_id: 4,
-        title: "カツカレー",
-        image: KatsuCurry,
-        materials: ["レトルトカレー", "米", "ひれ肉", "卵", "片栗粉", "パン粉", "野菜（お好み）"],
-        addedDate: new Date("2024-05-10T10:00:00Z"),
-        rating: 201,
-        creationTime: 20,
-        obtainMaterials: 5,
-        life: 2,
-        taste: 3
+            recipe_id: 4,
+            title: "カツカレー",
+            image: KatsuCurry,
+            materials: ["レトルトカレー", "米", "ひれ肉", "卵", "片栗粉", "パン粉", "野菜（お好み）"],
+            addedDate: new Date("2024-05-10T10:00:00Z"),
+            rating: 201,
+            creationTime: 20,
+            obtainMaterials: 5,
+            life: 2,
+            taste: 3
         },
         {
-        recipe_id: 5,
-        title: "タコライス",
-        image: TacoRice,
-        materials: ["米", "カレー粉", "キャベツ", "チーズ", "タバスコ"],
-        addedDate: new Date("2023-12-10T10:00:00Z"),
-        rating: 22,
-        creationTime: 10,
-        obtainMaterials: 3,
-        life: 4,
-        taste: 1
+            recipe_id: 5,
+            title: "タコライス",
+            image: TacoRice,
+            materials: ["米", "カレー粉", "キャベツ", "チーズ", "タバスコ"],
+            addedDate: new Date("2023-12-10T10:00:00Z"),
+            rating: 22,
+            creationTime: 10,
+            obtainMaterials: 3,
+            life: 4,
+            taste: 1
 
         },
     ];
     const [recipeList, setresipeList] = useState([...recipes]);
-    const handleRecipes = (recipes) => {
+    const handleRecipes = (recipes: any) => {
         setSelected(recipes);
     }
     // 評価値を表すアイコンのmap
     const iconMap = [
-        {key: "obtainMaterials", colorIcon: Carrot, grayIcon: CarrotGray, text:"素材の調達は簡単でしたか"},
-        {key: "life", colorIcon: Refrigerator, grayIcon: RefrigeratorGray, text:"長期保存はしやすいと感じますか"},
-        {key: "taste", colorIcon: Folk, grayIcon: FolkGray, text: "もう一度食べたいと思いますか"},
+        { key: "obtainMaterials", colorIcon: Carrot, grayIcon: CarrotGray, text: "素材の調達は簡単でしたか" },
+        { key: "life", colorIcon: Refrigerator, grayIcon: Refrigerator, text: "長期保存はしやすいと感じますか" },
+        { key: "taste", colorIcon: Folk, grayIcon: FolkGray, text: "もう一度食べたいと思いますか" },
     ];
     function rateIcons(rate: number, ColordIcon: StaticImageData, GrayIcon: StaticImageData, text: string) {
         // 評価の最大値の5まで繰り返す
         const iconList = Array.from({ length: 5 }, (_, i) => i < rate ? ColordIcon : GrayIcon);
-    
+
         return (
             <div className="mt-1 mb-1">
                 <ul className="flex list-none p-0 m-0">
@@ -182,18 +179,18 @@ export default function Recipe() {
                             day: '2-digit',
                         })}`)}
                     </div>
-    
+
                     <div className="w-1/3 flex flex-col justify-between">
-                    <div className="flex flex-col items-center">
-                        <Image className="w-full h-auto rounded-md" src={recipeMap.image} alt="料理画像" />
-                    </div>
-                    <div className="flex items-center mt-3">
-                        {iconImage(Heart, "ハートのアイコン")}
-                        <span className="text-lg font-semibold ml-2">{recipeMap.rating}</span>
+                        <div className="flex flex-col items-center">
+                            <Image className="w-full h-auto rounded-md" src={recipeMap.image} alt="料理画像" />
+                        </div>
+                        <div className="flex items-center mt-3">
+                            {iconImage(Heart, "ハートのアイコン")}
+                            <span className="text-lg font-semibold ml-2">{recipeMap.rating}</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-    
+
                 <div className="min-w-[30px] flex flex-col items-center justify-start px-3">
                     <div className="flex-none">
                         {iconImage(Save, "保存")}
@@ -203,47 +200,47 @@ export default function Recipe() {
         );
     }
 
-    
+
     // ソート切り替えボタンを追跡するハンドラ
     const [selected, setSelected] = useState(-1);
-    const handleClick = (buttonId) => {
+    const handleClick = (buttonId: any) => {
         setSelected(buttonId);
     }
     // ボタンのひな型
     const buttonTable = [
-        {id: 0, name: "新着順", onClick: ()=>{sortByAddedDate(0)}},
-        {id: 1, name: "人気度順", onClick: ()=>{sortByRate(1)}},
-        {id: 2, name: "作成時間順", onClick: ()=>{sortByCreationTime(2)}},
+        { id: 0, name: "新着順", onClick: () => { sortByAddedDate(0) } },
+        { id: 1, name: "人気度順", onClick: () => { sortByRate(1) } },
+        { id: 2, name: "作成時間順", onClick: () => { sortByCreationTime(2) } },
     ]
     // 各種ソート関数
     function sortListByFunction(list: any[], func: { (user: any): any; (user: any): any; (arg0: any): any; }) {
         return list.sort((a, b) => {
             const valueA = func(a);
             const valueB = func(b);
-            
+
             if (valueA < valueB) return -1;
             if (valueA > valueB) return 1;
             return 0;
         });
     }
-    function sortByAddedDate(id){
-        const newRecipe = sortListByFunction(recipeList, ((recipe)=>-recipe.addedDate.getTime()))
+    function sortByAddedDate(id: any) {
+        const newRecipe = sortListByFunction(recipeList, ((recipe) => -recipe.addedDate.getTime()))
         setresipeList(newRecipe);
         handleClick(id);
     }
-    function sortByRate(id){
-        const newRecipe = sortListByFunction(recipeList, ((recipe)=>-recipe.rating))
+    function sortByRate(id: any) {
+        const newRecipe = sortListByFunction(recipeList, ((recipe) => -recipe.rating))
         setresipeList(newRecipe);
         handleClick(id);
     }
-    function sortByCreationTime(id){
-        const newRecipe = sortListByFunction(recipeList, ((recipe)=>recipe.creationTime))
+    function sortByCreationTime(id: any) {
+        const newRecipe = sortListByFunction(recipeList, ((recipe) => recipe.creationTime))
         setresipeList(newRecipe);
         handleClick(id);
     }
     // 選択されているかを受けてボタンのデザインを変化させる関数
-    function sortButton(button, selectedId){
-        return (<button className={`flex-1 py-4 border ${button.id === selectedId ? "bg-blue-500 text-white":'bg-gray-200 text-gray-700'}`} onClick={button.onClick}>
+    function sortButton(button: any, selectedId: any) {
+        return (<button className={`flex-1 py-4 border ${button.id === selectedId ? "bg-blue-500 text-white" : 'bg-gray-200 text-gray-700'}`} onClick={button.onClick}>
             {button.name}
         </button>);
     }
@@ -251,14 +248,14 @@ export default function Recipe() {
     return (
         <div className="m-5">
             <div className="flex w-[90vw] max-w-md mx-auto">
-                {buttonTable.map((button)=>sortButton(button, selected))}
+                {buttonTable.map((button) => sortButton(button, selected))}
             </div>
 
             <ul>
                 {recipeList.map((recipe, index) => (
-                <li key={index}>
-                    {recipeCard(recipe)}
-                </li>
+                    <li key={index}>
+                        {recipeCard(recipe)}
+                    </li>
                 ))}
             </ul>
         </div>
