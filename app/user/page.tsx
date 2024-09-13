@@ -92,7 +92,10 @@ const ProfileScreen = () => {
   });
 
   const setCurrentDisasters = (value: any[]) => {
+    console.log("直近の状況")
+    console.log(value)
     if(value && value.length>0){
+      value =  sortListByFunction(value, (recipe)=>-(new Date(recipe.created_at)).getTime())
       const currentValue = value[0];
       setUser((prevUser) => ({
         ...prevUser,
@@ -162,6 +165,7 @@ const ProfileScreen = () => {
 
   const disasterPostAPI = useApi();
   const updateUserDisaster = useCallback((user_id: string, disaster_id: string, status: string)=>{
+    
     disasterPostAPI.refetch("/disasters/user-status", {
       method: "POST",
       headers: {
@@ -171,14 +175,6 @@ const ProfileScreen = () => {
     })
   }, [disasterPostAPI.refetch]);
 
-  useEffect(() => {
-    console.log("-----------------")
-    console.log("-----------------")
-    console.log(disasters)
-    
-    console.log("-----------------")
-  }, [disasters])
-  
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
