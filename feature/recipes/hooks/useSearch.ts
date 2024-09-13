@@ -4,28 +4,24 @@ import { useCallback, useEffect, useState } from "react";
 import { useSearchContext } from '../contexts/SearchContext';
 
 export const useSearch = () => {
-    const { searchQuery } = useSearchContext();
-    const [ingredients, setIngredients] = useState<string[]>([]);
-    const [tools, setTools] = useState<string[]>([]);
-    const [categories, setCategories] = useState<string[]>([]);
+    const { searchQuery, ingredients, tools, categories } = useSearchContext();
     const [recipes, setRecipes] = useState<Recipe[]>([]);
 
     const { data, error, loading, refetch } = useApi()
 
     const search = useCallback(() => {
-        console.log(`query: ${searchQuery}`)
-        if (searchQuery) {
-            let searchUrl = `/recipes/search?query=${searchQuery}`;
+        if (searchQuery || ingredients.length > 0 || tools.length > 0 || categories.length > 0) {
+            let searchUrl = '/recipes/search?';
+            const params = new URLSearchParams();
 
-            ingredients.forEach(ingredient => {
-                searchUrl += `&ingredients=${encodeURIComponent(ingredient)}`;
-            });
-            tools.forEach(tool => {
-                searchUrl += `&tools=${encodeURIComponent(tool)}`;
-            });
-            categories.forEach(category => {
-                searchUrl += `&categories=${encodeURIComponent(category)}`;
-            });
+            if (searchQuery) params.append('query', searchQuery);
+            ingredients.forEach(ingredient => params.append('ingredients', ingredient));
+            tools.forEach(tool => params.append('tools', tool));
+            categories.forEach(category => params.append('categories', category));
+
+            searchUrl += params.toString();
+
+            console.log(searchUrl);
 
             refetch(searchUrl, {
                 method: 'GET',
@@ -37,11 +33,15 @@ export const useSearch = () => {
     }, [searchQuery, ingredients, tools, categories, refetch]);
 
     useEffect(() => {
+        search();
+    }, [search]);
+
+    useEffect(() => {
         if (data) {
             console.log(data);
             setRecipes(data);
         }
     }, [data]);
 
-    return { search, setIngredients, setTools, setCategories, recipes, error, loading };
+    return { search, recipes, error, loading };
 };

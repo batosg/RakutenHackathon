@@ -4,13 +4,14 @@ import React, { useState } from 'react'
 interface ToolTagProps {
     label: string;
     index: number;
+    onClick: (label: string) => void;
+    isSelected: boolean;
 }
 
-const ToolTag = ({ label, index }: ToolTagProps) => {
+const ToolTag = ({ label, index, onClick, isSelected }: ToolTagProps) => {
 
-    const [isSelected, setIsSelected] = useState(false);
     const handleClick = () => {
-        setIsSelected(!isSelected);
+        onClick(label);
     }
 
     return (
