@@ -1,110 +1,22 @@
 "use client";
 
-import Image, { StaticImageData } from "next/image";
-import { GassConlo } from "@/public/";
 import { useState } from "react";
+import { tipsContent } from "@/constants/tips";
+import { TipsContent } from "@/types/tips";
+import { Header } from "@/components";
+import { TipsItem } from "@/feature/tips";
 
 export default function Recipe() {
-    const BaseText = ({ text }: { text: string }) => <div className="text-left text-sm mb-2 break-words">{text}</div>; // 折り返し可能に
-    const EllipsisText = ({ text }: { text: string }) => (
-        <div className="flex-1 min-w-0 text-sm p-2 break-words"> {/* 折り返しを有効に */}
-            {text}
-        </div>
-    );
-    const EllipsisTitle = ({ text }: { text: string }) => (
-        <div className="flex-1 min-w-0 font-bold text-lg p-2 break-words"> {/* 折り返しを有効に */}
-            {text}
-        </div>
-    );
 
+    const [tipsesList, setTipsesList] = useState<TipsContent[]>(tipsContent);
 
-    // アイコン画像を作成する関数
-    const iconImage = (src: StaticImageData, text: string, width: number = 20, height: number = 20) => (
-        <Image
-            src={src}
-            alt={text}
-            width={width}
-            height={height}
-            className="object-contain"  // 画像の縦横比を維持しつつ、指定サイズ内に収める
-        />
-    );
-
-    // レシピを表すカードの描写に関する部分
-    // デモデータ
-    const tipses = [
-        {
-            recipe_id: 0,
-            title: "【ガスが止まった時に】火を使わない調理法／節ガス・節水になるポリ袋調理法",
-            image: GassConlo,
-            text: "地震や大型台風などの災害によって「ガス」が使えなくなったときにできる調理の工夫と、節ガス・節水になる「ポリ袋調理」について解説します。",
-            addedDate: new Date("2024-09-13T10:00:00Z")
-        },
-        {
-            recipe_id: 1,
-            title: "【ガスが止まった時に】火を使わない調理法／節ガス・節水になるポリ袋調理法",
-            image: GassConlo,
-            text: "地震や大型台風などの災害によって「ガス」が使えなくなったときにできる調理の工夫と、節ガス・節水になる「ポリ袋調理」について解説します。",
-            addedDate: new Date("2024-12-13T10:00:00Z")
-        },
-        {
-            recipe_id: 2,
-            title: "【ガスが止まった時に】火を使わない調理法／節ガス・節水になるポリ袋調理法",
-            image: GassConlo,
-            text: "地震や大型台風などの災害によって「ガス」が使えなくなったときにできる調理の工夫と、節ガス・節水になる「ポリ袋調理」について解説します。",
-            addedDate: new Date("2014-09-13T10:00:00Z")
-        },
-        {
-            recipe_id: 3,
-            title: "【ガスが止まった時に】火を使わない調理法／節ガス・節水になるポリ袋調理法",
-            image: GassConlo,
-            text: "地震や大型台風などの災害によって「ガス」が使えなくなったときにできる調理の工夫と、節ガス・節水になる「ポリ袋調理」について解説します。",
-            addedDate: new Date("2025-09-13T10:00:00Z")
-        },
-        {
-            recipe_id: 4,
-            title: "【ガスが止まった時に】火を使わない調理法／節ガス・節水になるポリ袋調理法",
-            image: GassConlo,
-            text: "地震や大型台風などの災害によって「ガス」が使えなくなったときにできる調理の工夫と、節ガス・節水になる「ポリ袋調理」について解説します。",
-            addedDate: new Date("2022-01-13T10:00:00Z")
-        }
-    ];
-    const [tipsesList, setTipsesList] = useState([...tipses]);
-    // デモデータを受けてカードを作成する関数
-    function tipsCard(tipsMap: any) {
-        return (
-            <div className="w-full mx-auto my-2 p-4 bg-gray-200 rounded-lg flex flex-col sm:flex-row items-start">
-                <div className="flex-1 flex flex-col">
-                    <EllipsisTitle text={tipsMap.title} />
-                    <EllipsisText text={tipsMap.text} />
-                    <BaseText text={`投稿日時 ：${tipsMap.addedDate.toLocaleDateString('ja-JP', {
-                        year: 'numeric',
-                        month: '2-digit',
-                        day: '2-digit',
-                    })}`} />
-                </div>
-                <Image
-                    className="w-full sm:w-1/3 h-auto rounded-md mt-2 sm:mt-0"
-                    src={tipsMap.image}
-                    alt="料理画像"
-                />
-            </div>
-        );
-    }
-
-
-    // ソート切り替えボタンを追跡するハンドラ
-    const [selected, setSelected] = useState(-1);
-    const handleClick = (buttonId: any) => {
-        setSelected(buttonId);
-    }
-    // ボタンのひな型
     const buttonTable = [
-        { id: 0, name: "新着順", onClick: () => { sortByAddedDate(0) } },
-        { id: 1, name: "人気度順", onClick: () => { sortByRate(1) } },
-        { id: 2, name: "作成時間順", onClick: () => { sortByCreationTime(2) } },
+        { id: 0, name: "新着順", onClick: () => { sortByAddedDate() } },
+        { id: 1, name: "人気度順", onClick: () => { sortByRate() } },
+        { id: 2, name: "作成時間順", onClick: () => { sortByCreationTime() } },
     ]
-    // 各種ソート関数
-    function sortListByFunction(list: any[], func: { (user: any): any; (user: any): any; (arg0: any): any; }) {
+
+    const sortListByFunction = (list: any[], func: { (arg0: any): any; (arg0: any): any; (arg0: any): any; }) => {
         return list.sort((a, b) => {
             const valueA = func(a);
             const valueB = func(b);
@@ -114,39 +26,41 @@ export default function Recipe() {
             return 0;
         });
     }
-    function sortByAddedDate(id: any) {
-        const newRecipe = sortListByFunction(tipsesList, ((recipe) => -recipe.addedDate.getTime()))
-        setTipsesList(newRecipe);
-        handleClick(id);
+
+    function sortByAddedDate() {
+        const newTips = sortListByFunction(tipsesList, ((tips: TipsContent) => -tips.postDate.getTime()))
+        setTipsesList(newTips);
     }
-    function sortByRate(id: any) {
-        const newRecipe = sortListByFunction(tipsesList, ((recipe) => -recipe.rating))
-        setTipsesList(newRecipe);
-        handleClick(id);
+    function sortByRate() {
+        const newTips = sortListByFunction(tipsesList, ((tips: TipsContent) => -tips.rating))
+        setTipsesList(newTips);
     }
-    function sortByCreationTime(id: any) {
-        const newRecipe = sortListByFunction(tipsesList, ((recipe) => recipe.creationTime))
-        setTipsesList(newRecipe);
-        handleClick(id);
+    function sortByCreationTime() {
+        const newTips = sortListByFunction(tipsesList, ((tips: TipsContent) => tips.editDate.getTime()))
+        setTipsesList(newTips);
     }
-    // 選択されているかを受けてボタンのデザインを変化させる関数
-    function sortButton(button: any, selectedId: any) {
-        return (<button className={`inline-flex items-center px-4 border ${button.id === selectedId ? "bg-blue-500 text-white" : 'bg-gray-200 text-gray-700'}`} onClick={button.onClick}>
-            {button.name}
-        </button>);
-    }
+
+    const [selectedButton, setSelectedButton] = useState<number>(0);
 
     return (
-        <div className="m-5">
-            <ul>
-                {tipsesList.map((recipe, index) => (
-                    <li key={index}>
-                        {tipsCard(recipe)}
-                    </li>
-                ))}
-            </ul>
-        </div>
+        <>
+            <Header />
+            <div className="p-4">
+                <h3 className="text-lg font-bold mb-4">災害時のお役立ち情報: {tipsesList.length}件</h3>
+                <div className="flex justify-between gap-2 mb-4">
+                    {buttonTable.map((button, index) => (
+                        <button key={index} onClick={() => { button.onClick(); setSelectedButton(button.id) }} className="text-white px-4 py-2 rounded-md w-full bg-accent"
+                            style={{ opacity: selectedButton === button.id ? 1 : 0.5 }}>{button.name}</button>
+                    ))}
+                </div>
+                <ul className="flex flex-wrap gap-2 p-2 mx-4 mt-4">
+                    {tipsesList.map((tips, index) => (
+                        <li key={index}>
+                            <TipsItem title={tips.title} content={tips.content[0].content as string} image={tips.image} postDate={tips.postDate} articleId={tips.articleId} />
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        </>
     )
-
-
 }

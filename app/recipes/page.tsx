@@ -17,11 +17,10 @@ export default function Recipe() {
     console.log("フォロー")
   }
 
-  const { recipe, isLoading, error, refetchRecipe } = useRecipeDetail({ recipeId: "2138a252-ceb7-4906-8c1d-5bd7f636218e" });
+  const { recipe, isLoading, error, refetchRecipe } = useRecipeDetail("2138a252-ceb7-4906-8c1d-5bd7f636218e");
 
   useEffect(() => {
     refetchRecipe();
-    console.log(recipe);
   }, [refetchRecipe]);
 
   return (

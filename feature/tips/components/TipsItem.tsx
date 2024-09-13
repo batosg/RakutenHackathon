@@ -1,16 +1,18 @@
 import Image from 'next/image';
 import React from 'react'
-import { Petbottle } from '@/public/index'
+import { useRouter } from 'next/navigation';
 
 interface TipsItemProps {
     title: string;
     content: string;
     image: string;
     postDate: Date;
+    articleId: number;
 }
 
-const TipsItem = ({ title, content, image, postDate }: TipsItemProps) => {
+const TipsItem = ({ title, content, image, postDate, articleId }: TipsItemProps) => {
 
+    const router = useRouter();
 
     const titleText = (title: string) => {
         if (title.length > 20) {
@@ -26,9 +28,13 @@ const TipsItem = ({ title, content, image, postDate }: TipsItemProps) => {
         return content;
     }
 
+    const handleClick = () => {
+        router.push(`/tips/${articleId}`);
+    }
+
     return (
         <div className="bg-white p-4 rounded-md shadow-md flex-shrink-0 mr-4 max-w-xs">
-            <div className="relative w-full mb-2" style={{ paddingBottom: '75%' }}>
+            <div className="relative w-full mb-2" style={{ paddingBottom: '75%' }} onClick={handleClick}>
                 <Image
                     src={image}
                     alt={title}
