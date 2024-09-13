@@ -1,17 +1,11 @@
 import React, { useState } from "react";
 
 const ReviewCriteria = () => {
-  const [difficulty, setDifficulty] = useState(1);
   const [acc, setAcc] = useState(1);
   const [stor, setStor] = useState(1);
   const [eat, setEat] = useState(1);
 
   const criteria = [
-    {
-      label: "料理の難易度",
-      value: difficulty,
-      setter: setDifficulty,
-    },
     {
       label: "材料の入手のしやすさ",
       value: acc,

@@ -57,7 +57,6 @@ const ReviewList = ({
 
             <StarRating rating={review.rating} />
             <div className="flex flex-col space-y-4 p-6 bg-gray-100 rounded-lg shadow-md">
-              <Badge children={review.difficulty} />
               <Badge children={review.ease_of_ingredient_acquisition} />
               <Badge children={review.ease_of_long_term_storage} />
               <Badge children={review.would_eat_again} />

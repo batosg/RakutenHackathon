@@ -18,7 +18,6 @@ const AddReview = () => {
   const [user_id, setuser_id] = useState("");
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
-  const [difficulty, setDifficulty] = useState(1);
   const [ease_of_ingredient_acquisition, setease_of_ingredient_acquisition] =
     useState(1);
   const [ease_of_long_term_storage, setease_of_long_term_storage] = useState(1);
@@ -26,6 +25,7 @@ const AddReview = () => {
   const [files, setFiles] = useState<
     Array<{ name: string; path: string; url?: string }>
   >([]);
+
   const { data, refetch } = useApi();
   useEffect(() => {
     refetch(`/reviews/recipe/2138a252-ceb7-4906-8c1d-5bd7f636218e`, {
@@ -58,30 +58,25 @@ const AddReview = () => {
 
   const handleSubmit = () => {
     const newReview = {
-      rating,
+      rating: rating.toString(),
       comment,
-      difficulty,
+      ease_of_ingredient_acquisition: ease_of_ingredient_acquisition.toString(),
+      ease_of_long_term_storage: ease_of_long_term_storage.toString(),
+      would_eat_again: would_eat_again.toString(),
     };
 
     refetch("/review", {
       method: "POST",
       headers: {
         "ngrok-skip-browser-warning": true,
+        "Content-Type": "application/x-www-form-urlencoded",
       },
-      data: new URLSearchParams({
-        recipe_id
-        user_id,
-        rating,
-        comment,
-        ease_of_ingredient_acquisition,
-        ease_of_long_term_storage,
-        would_eat_again,
-    }),
+
+      data: new URLSearchParams(newReview),
     });
 
     setRating(0);
     setComment("");
-    setDifficulty(1);
     setease_of_ingredient_acquisition(1);
     setease_of_long_term_storage(1);
     setwould_eat_again(1);
