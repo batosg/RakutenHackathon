@@ -24,14 +24,18 @@ interface User {
 }
 
 function sortListByFunction(list: any[], func: { (user: any): any; (user: any): any; (arg0: any): any; }) {
-  return list.sort((a, b) => {
-    const valueA = func(a);
-    const valueB = func(b);
-    
-    if (valueA < valueB) return -1;
-    if (valueA > valueB) return 1;
-    return 0;
-  });
+  if(list&&list.length>0){
+    return list.sort((a, b) => {
+      const valueA = func(a);
+      const valueB = func(b);
+      
+      if (valueA < valueB) return -1;
+      if (valueA > valueB) return 1;
+      return 0;
+    });
+  }else{
+    return list
+  }
 }
 
 const ProfileScreen = () => {
@@ -50,15 +54,13 @@ const ProfileScreen = () => {
   }, [getDisasterListAPI.refetch])
   useEffect(() => {
       handleDisasters(getDisasterListAPI.data);
-      console.log('fdasjl;dkaljah;')
-      console.log(getDisasterListAPI.data)
   }, [getDisasterListAPI.data]) 
   
-  // const handleDisasters = (data)=>{
-  //   setDisasters(
-  //     sortListByFunction(data, (value=>)
-  //   )
-  // }
+  const handleDisasters = (data)=>{
+    data =  sortListByFunction(data, (recipe)=>-(new Date(recipe.created_at)).getTime())
+    setDisasters(data)
+    console.log(disasters)
+  }
   // 現在の被災状況の取得
   const getCurrentDisasterAPI = useApi();
   useEffect(()=>{
@@ -169,6 +171,15 @@ const ProfileScreen = () => {
     })
   }, [disasterPostAPI.refetch]);
 
+  useEffect(() => {
+    console.log("-----------------")
+    console.log("-----------------")
+    console.log(disasters)
+    
+    console.log("-----------------")
+  }, [disasters])
+  
+
   return (
     <div className="min-h-screen bg-gray-100 p-6">
       <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-md p-6">
@@ -205,14 +216,14 @@ const ProfileScreen = () => {
             onChange={handleInputChange}
           />
         </div>
-        {disasters && disasters.length > 0 ?
+        {
         (<div className="mb-8">
           <label className="font-bold ">被災情報</label>
           <SelectField 
             label={"被災されている災害を選択してください？"} 
             value={user.user_disaster?.disaster_id ?? "404 (Not Found)"} 
             onChange={selectDisaster} 
-            options={disasters.map((disaster)=>({value: disaster.disaster_id, label: disaster.description}))} 
+            options={(disasters && disasters.length>0)?disasters.map((disaster)=>({value: disaster.disaster_id, label: disaster.description})):[{value: not_disaster_id, label:"災害情報を取得中"}]} 
             placeholder={""}
             disabled={false} 
             id={""}            
@@ -227,10 +238,10 @@ const ProfileScreen = () => {
               {value: UserStatus.Affected, label: "避難済み"}
             ]} 
             placeholder={""}
-            disabled={user.user_disaster == null} 
+            disabled={user.user_disaster?.disaster_id == not_disaster_id || user.user_disaster == null} 
             id={""}            
           />
-        </div>):!getDisasterListAPI.loading && <p>No recipes found.</p>}
+        </div>)}
 
         <div className="mb-8">
           <label className="font-bold ">レシピのフィルター設定</label>
