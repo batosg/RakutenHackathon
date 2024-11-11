@@ -1,3 +1,16 @@
+### How to Deploy
+
+1. Install dependencies:
+   ```bash
+   pnpm install
+   ```
+2. Start the development server:
+   ```bash
+   pnpm dev
+   ```
+
+##### PS:Some parts may not work due to server shutting down.
+
 # Team11: Happiness through Food for Disaster Victims
 
 ### Project Overview
