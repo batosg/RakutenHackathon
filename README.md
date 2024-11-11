@@ -40,3 +40,15 @@ The app helps disaster victims:
 - Nishimura
 - Ganbat
 - Asai
+
+![f84520fb0516aacc85b303cf896463bb-0](https://github.com/user-attachments/assets/c2c70b23-2ca6-460f-bc10-c72197f3e9eb)
+![f84520fb0516aacc85b303cf896463bb-1](https://github.com/user-attachments/assets/0a97695c-d5fe-4cca-a006-e2a05c1bd908)
+![f84520fb0516aacc85b303cf896463bb-4](https://github.com/user-attachments/assets/01b08175-2662-4796-9546-0f029c6c3562)
+![f84520fb0516aacc85b303cf896463bb-5](https://github.com/user-attachments/assets/16479598-6085-4533-a2ff-06fe8ade9aee)
+![f84520fb0516aacc85b303cf896463bb-6](https://github.com/user-attachments/assets/d55a800e-d908-487d-a07b-51a75776507a)
+![f84520fb0516aacc85b303cf896463bb-7](https://github.com/user-attachments/assets/3478c5a7-550b-4a40-8457-647f8b6bdba8)
+![f84520fb0516aacc85b303cf896463bb-9](https://github.com/user-attachments/assets/53a35077-c25e-458a-988f-04e0e753a6bf)
+![f84520fb0516aacc85b303cf896463bb-10](https://github.com/user-attachments/assets/267c931e-23c3-437c-a872-4d9edf6ac674)
+![f84520fb0516aacc85b303cf896463bb-11](https://github.com/user-attachments/assets/c3abfe47-1355-4634-9a3d-7d1c78534643)
+![f84520fb0516aacc85b303cf896463bb-13](https://github.com/user-attachments/assets/b13b7c25-4c20-434b-bb66-448e7d47c3bc)
+![f84520fb0516aacc85b303cf896463bb-14](https://github.com/user-attachments/assets/1c3f2b58-8b22-4ade-bb47-930bec5885d8)
